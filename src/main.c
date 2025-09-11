@@ -6,27 +6,160 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:56:30 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/09/09 18:56:42 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/09/11 22:28:02 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+char	**create_visited_array(t_game *game)
+{
+	char	**visited;
+	int		i, j;
+	
+	visited = malloc(sizeof(char *) * game->height);
+	i = 0;
+	while (i < game->height)
+	{
+		visited[i] = malloc(sizeof(char) * (ft_strlen(game->map[i]) + 1));
+		j = 0;
+		while (j < (int)ft_strlen(game->map[i]))
+		{
+			visited[i][j] = '0';
+			j++;
+		}
+		visited[i][j] = '\0';
+		i++;
+	}
+	return visited;
+}
 
+void	get_player_position(t_game *game)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < game->height)
+	{
+		j = 0;
+		while (j < (int)ft_strlen(game->map[i]))
+		{
+			if (game->map[i][j] == 'N' || game->map[i][j] == 'S' || 
+				game->map[i][j] == 'E' || game->map[i][j] == 'W')
+			{
+				game->player.x = j;
+				game->player.y = i;
+				return ;
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
+int	check_map(t_game *game)
+{
+	char **visited;
+
+	visited = create_visited_array(game);
+	get_player_position(game);
+	if (!check_edges(game, game->player.x, game->player.y, visited))
+	{
+		
+		freemap(game, visited);
+		printf("Error\nMap is not closed\n");
+		return (1);
+	}
+	return (0);
+}
+
+void	init_mlx(t_game *game)
+{
+	game->mlx = mlx_init();
+	game->win = mlx_new_window(game->mlx, 1152, 864, "cub3d");
+}
+
+void	init_textures(t_game *game)
+{
+	(void)game;
+	// game->textures = malloc(sizeof(int *) * 4);
+	// game->textures[NORTH] = xpm_to_img(game, game->tinfo.no);
+	// game->textures[SOUTH] = xpm_to_img(game, game->tinfo.so);
+	// game->textures[EAST] = xpm_to_img(game, game->tinfo.ea);
+	// game->textures[WEST] = xpm_to_img(game, game->tinfo.we);
+}
+
+void	init_texture_pixels(t_game *game)
+{
+	int i;
+
+	game->texture_pixels = ft_calloc((S_HEIGHT + 1), sizeof(int *));
+	i = 0;
+	while (i < S_HEIGHT)
+	{
+		game->texture_pixels[i] = ft_calloc((S_WIDTH + 1), sizeof(int));
+		i++;
+	}
+}
+
+int	key_press(int keycode, t_game *game)
+{
+	if (keycode == 65361)
+		game->player.angle -= 5 * (PI / 180);
+	if (keycode == 65363)
+		game->player.angle += 5 * (PI / 180);
+	if (keycode == 119)
+		game->player.move_y = 1;
+	if (keycode == 115)
+		game->player.move_y = -1;
+	if (keycode == 97)
+		game->player.move_x = -1;
+	if (keycode == 100)
+		game->player.move_x = 1;
+	if (keycode == 65307)
+	{
+		freemap(game, game->map);
+		exit(0);
+	}
+	return (0);
+}
+
+int	key_release(int key, t_game *game)
+{
+	if (key == 119)
+		game->player.move_y = 0;
+	if (key == 115)
+		game->player.move_y = 0;
+	if (key == 97)
+		game->player.move_x = 0;
+	if (key == 100)
+		game->player.move_x = 0;
+	return (0);
+}
+
+void	key_hooks(t_game *game)
+{
+	mlx_hook(game->win, 2, 1L<<0, key_press, game);
+	mlx_hook(game->win, 3, 1L<<1, key_release, game);;
+}
 
 int	main(int argc, char **argv)
 {
 	t_game game;
+	// char **visited;
 	if (argc != 2)
 	{
 		printf("Error\nWrong number of arguments\n");
 		return (1);
 	}
 	init_game(&game, argv);
-	check_edges(&game);
-	for (int i = 0; i < game.height; i++)
-	{
-		printf("%s\n", game.map[i]);
-	}
-	printf("%s\n", game.no_texture);
+	if (check_map(&game))
+		return (1);
+	init_mlx(&game);
+	init_textures(&game);
+	key_hooks(&game);
+	mlx_loop_hook(game.mlx, render, &game);
+	mlx_loop(game.mlx);
+	// freemap(&game, visited);
 }

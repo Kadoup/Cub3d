@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:32:14 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/09/09 18:51:20 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/09/11 22:45:34 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,28 +18,98 @@
 # include <stdlib.h>
 # include <stddef.h>
 # include <limits.h>
+# include <math.h>
 # include <fcntl.h>
 # include <stdio.h>
+#include <stdbool.h>
 // # include "../.mlx/mlx.h"
 # include "../lib/libft.h"
+# include "../minilibx-linux/mlx.h"
+
+# define S_WIDTH 1152
+# define S_HEIGHT 864
+# define PI 3.14159265358979323846
+# define MOVE_SPEED 0.0001
+
+enum e_tindex
+{
+	EAST = 0,
+	WEST = 1,
+	SOUTH = 2,
+	NORTH = 3
+};
+
+typedef struct s_img
+{
+	void	*img;
+	int	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+}				t_img;
+
+typedef struct s_player
+{
+	char	dir;
+	double	x;
+	double	y;
+	long	has_moved;
+	int		angle;
+	int		move_x;
+	int		move_y;
+	double	dir_x;
+	double	dir_y;
+	
+}				t_player;
+
+typedef struct s_tinfo
+{
+	int		nb_textures;
+	char	*no;
+	char	*so;
+	char	*we;
+	char	*ea;
+	char	*floor_color;
+	char	*ceiling_color;
+}				t_tinfo;
+
+typedef struct s_ray
+{
+	double	dir_x;
+	int		offset;
+	double	dir_y;
+	int		map_x;
+	int		map_y;
+	int		step_x;
+	int		step_y;
+	double	sidedist_x;
+	double	sidedist_y;
+	double	deltadist_x;
+	double	deltadist_y;
+	double	wall_dist;
+	double	wall_x;
+	int		side;
+	int		line_height;
+}	t_ray;
 
 typedef struct s_game
 {
 	void	*mlx;
 	void	*win;
 	char	**map;
-	char	**mapcpy;
 	int		height;
-	int		nb_textures;
-	char	*no_texture;
-	char	*so_texture;
-	char	*we_texture;
-	char	*ea_texture;
-	char	*floor_color;
-	char	*ceiling_color;
+	int		**textures;
+	int		**texture_pixels;
+	t_player	player;
+	t_tinfo		tinfo;
+	t_ray		ray;
 }				t_game;
 
 void	init_game(t_game *game, char **argv);
-void	check_edges(t_game *game);
+bool	check_edges(t_game *game, int x, int y, char **visited);
+void	freemap(t_game *game, char **map);
+void	init_texture_pixels(t_game *game);
+int		render(t_game *game);
+int	update_position(t_game *game);
 
 #endif

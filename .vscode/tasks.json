@@ -1,0 +1,54 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "type": "shell",
+            "command": "make",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Build the cub3d project using Makefile"
+        },
+        {
+            "label": "clean",
+            "type": "shell",
+            "command": "make",
+            "args": ["clean"],
+            "group": "build",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "detail": "Clean object files"
+        },
+        {
+            "label": "fclean",
+            "type": "shell",
+            "command": "make",
+            "args": ["fclean"],
+            "group": "build",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "detail": "Full clean (remove executable and object files)"
+        },
+        {
+            "label": "rebuild",
+            "type": "shell",
+            "command": "make",
+            "args": ["re"],
+            "group": "build",
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "dependsOrder": "sequence",
+            "dependsOn": [],
+            "detail": "Rebuild the project (fclean + build)"
+        }
+    ]
+}
