@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 18:48:32 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/09/11 22:23:22 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/09/14 04:43:17 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,13 @@ void	process_dda(t_game *game)
 	}
 }
 
-void	calc_line_height(t_game *game)
+void	calc_line_height(t_game *game, float ray_angle)
 {
 	if (game->ray.side == 0)
 		game->ray.wall_dist = (game->ray.sidedist_x - game->ray.deltadist_x);
 	else
 		game->ray.wall_dist = (game->ray.sidedist_y - game->ray.deltadist_y);
+	game->ray.wall_dist *= cos(ray_angle - game->player.angle);
 	game->ray.line_height = (int)(S_HEIGHT / game->ray.wall_dist);
 }
 
@@ -88,21 +89,54 @@ void	draw_wall_line(t_game *game, int x)
 {
 	int	y;
 	int end;
+	int color;
 
 	y = -game->ray.line_height / 2 + S_HEIGHT / 2;
 	end = game->ray.line_height / 2 + S_HEIGHT / 2;
+	
+	// Determine wall direction more precisely
+	if (game->ray.side == 0) // Vertical wall (NS walls)
+	{
+		if (game->ray.dir_x > 0)
+			color = 0x0000FF00; // Green for East-facing wall
+		else
+			color = 0x00FF0000; // Red for West-facing wall
+	}
+	else // Horizontal wall (EW walls)
+	{
+		if (game->ray.dir_y > 0)
+			color = 0x00FFFF00; // Yellow for South-facing wall
+		else
+			color = 0x000000FF; // Blue for North-facing wall
+	}
+	
 	while (y < end)
 	{
-		game->texture_pixels[y][x] = game->ray.side ? 0x00FF0000 : 0x0000FF00;
+		if (y >= 0 && y < S_HEIGHT) // Add bounds checking
+			game->texture_pixels[y][x] = color;
 		y++;
 	}
 }
 
-void	cast_single_ray(t_game *game, int x)
+// void	draw_wall_line(t_game *game, int x)
+// {
+// 	int	y;
+// 	int end;
+
+// 	y = -game->ray.line_height / 2 + S_HEIGHT / 2;
+// 	end = game->ray.line_height / 2 + S_HEIGHT / 2;
+// 	while (y < end)
+// 	{
+// 		game->texture_pixels[y][x] = game->ray.side ? 0x00FF0000 : 0x0000FF00;
+// 		y++;
+// 	}
+// }
+
+void	cast_single_ray(t_game *game, int x, float ray_angle)
 {
 	prep_dda(game);
 	process_dda(game);
-	calc_line_height(game);
+	calc_line_height(game, ray_angle);
 	draw_wall_line(game, x);
 }
 
@@ -120,12 +154,12 @@ void	cast_rays(t_game *game)
 	while (i < S_WIDTH)
 	{
 		ray_angle = start_angle + (i * angle_step);
-		if (ray_angle < 0)
+		while (ray_angle < 0)
 			ray_angle += 2 * PI;
-		if (ray_angle >= 2 * PI)
+		while (ray_angle >= 2 * PI)
 			ray_angle -= 2 * PI;
 		init_ray(game, ray_angle);
-		cast_single_ray(game, i);
+		cast_single_ray(game, i, ray_angle);
 		i++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 19:30:11 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/09/11 22:38:40 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/09/14 04:19:44 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ int	move_right(t_game *game)
 	double	new_x;
 	double	new_y;
 
-	new_x = game->player.x + cos(game->player.angle) * MOVE_SPEED;
-	new_y = game->player.y - sin(game->player.angle) * MOVE_SPEED;
+	new_x = game->player.x + cos(game->player.angle - PI/2) * MOVE_SPEED;
+	new_y = game->player.y + sin(game->player.angle - PI/2) * MOVE_SPEED;
 	if (game->map[(int)game->player.y][(int)new_x] != '1')
 		game->player.x = new_x;
 	if (game->map[(int)new_y][(int)game->player.x] != '1')
@@ -31,8 +31,8 @@ int	move_left(t_game *game)
 	double	new_x;
 	double	new_y;
 
-	new_x = game->player.x - cos(game->player.angle) * MOVE_SPEED;
-	new_y = game->player.y + sin(game->player.angle) * MOVE_SPEED;
+	new_x = game->player.x + cos(game->player.angle + PI/2) * MOVE_SPEED;
+	new_y = game->player.y + sin(game->player.angle + PI/2) * MOVE_SPEED;
 	if (game->map[(int)game->player.y][(int)new_x] != '1')
 		game->player.x = new_x;
 	if (game->map[(int)new_y][(int)game->player.x] != '1')
@@ -45,12 +45,12 @@ int	move_forward(t_game *game)
 	double	new_x;
 	double	new_y;
 
-	new_x = sin(game->player.angle) * MOVE_SPEED;
-	new_y = cos(game->player.angle) * MOVE_SPEED;
+	new_x = game->player.x + cos(game->player.angle) * MOVE_SPEED;
+	new_y = game->player.y + sin(game->player.angle) * MOVE_SPEED;
 	if (game->map[(int)game->player.y][(int)new_x] != '1')
-		game->player.x += new_x;
+		game->player.x = new_x;
 	if (game->map[(int)new_y][(int)game->player.x] != '1')
-		game->player.y += new_y;
+		game->player.y = new_y;
 	return (1);
 }
 
@@ -59,12 +59,12 @@ int	move_backward(t_game *game)
 	double	new_x;
 	double	new_y;
 
-	new_x = sin(game->player.angle) * MOVE_SPEED;
-	new_y = cos(game->player.angle) * MOVE_SPEED;
+	new_x = game->player.x - cos(game->player.angle) * MOVE_SPEED;
+	new_y = game->player.y - sin(game->player.angle) * MOVE_SPEED;
 	if (game->map[(int)game->player.y][(int)new_x] != '1')
-		game->player.x -= new_x;
+		game->player.x = new_x;
 	if (game->map[(int)new_y][(int)game->player.x] != '1')
-		game->player.y -= new_y;
+		game->player.y = new_y;
 	return (1);
 }
 

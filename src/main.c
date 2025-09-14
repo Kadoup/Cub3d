@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:56:30 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/09/11 22:28:02 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/09/14 04:44:37 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,16 @@ void	get_player_position(t_game *game)
 			if (game->map[i][j] == 'N' || game->map[i][j] == 'S' || 
 				game->map[i][j] == 'E' || game->map[i][j] == 'W')
 			{
-				game->player.x = j;
-				game->player.y = i;
+				game->player.x = j + 0.5;
+				game->player.y = i + 0.5;
+				if (game->map[i][j] == 'N')
+					game->player.angle = 3 * PI / 2;
+				else if (game->map[i][j] == 'S')
+					game->player.angle = PI / 2;
+				else if (game->map[i][j] == 'E')
+					game->player.angle = 0;
+				else if (game->map[i][j] == 'W')
+					game->player.angle = PI;
 				return ;
 			}
 			j++;
@@ -94,11 +102,11 @@ void	init_texture_pixels(t_game *game)
 {
 	int i;
 
-	game->texture_pixels = ft_calloc((S_HEIGHT + 1), sizeof(int *));
+	game->texture_pixels = ft_calloc((S_HEIGHT), sizeof(int *));
 	i = 0;
 	while (i < S_HEIGHT)
 	{
-		game->texture_pixels[i] = ft_calloc((S_WIDTH + 1), sizeof(int));
+		game->texture_pixels[i] = ft_calloc((S_WIDTH ), sizeof(int));
 		i++;
 	}
 }
@@ -159,6 +167,7 @@ int	main(int argc, char **argv)
 	init_mlx(&game);
 	init_textures(&game);
 	key_hooks(&game);
+	render_game(&game);
 	mlx_loop_hook(game.mlx, render, &game);
 	mlx_loop(game.mlx);
 	// freemap(&game, visited);

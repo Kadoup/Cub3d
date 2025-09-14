@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:32:14 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/09/11 22:45:34 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/09/14 04:47:34 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ typedef struct s_player
 	double	x;
 	double	y;
 	long	has_moved;
-	int		angle;
+	double		angle;
 	int		move_x;
 	int		move_y;
 	double	dir_x;
@@ -111,5 +111,6 @@ void	freemap(t_game *game, char **map);
 void	init_texture_pixels(t_game *game);
 int		render(t_game *game);
 int	update_position(t_game *game);
+void	render_game(t_game *game);
 
 #endif

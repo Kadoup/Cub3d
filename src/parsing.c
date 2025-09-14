@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:11:15 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/09/11 19:10:35 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/09/14 04:16:41 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,9 @@ void	init_game(t_game *game, char **argv)
 	init_tinfo(&game->tinfo);
 	game->player.x = -1;
 	game->player.y = -1;
+	game->player.angle = 0;
+	game->player.move_x = 0;
+	game->player.move_y = 0;
 	getmapdimensions(game, argv[1]);
 	game->map = malloc(sizeof(char *) * game->height);
 	readmapfromfile(game, argv[1]);
