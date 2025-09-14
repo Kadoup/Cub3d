@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 18:48:32 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/09/14 04:59:47 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/09/14 05:07:25 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,8 +233,8 @@ void	render_game(t_game *game)
 int	render(t_game *game)
 {
 	game->player.has_moved = update_position(game);
-	if (game->player.has_moved)
-		return (0);
+	// if (!game->player.has_moved)
+	// 	return (0);
 	render_game(game);
 	return (0);
 }
