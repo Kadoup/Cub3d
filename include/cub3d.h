@@ -54,6 +54,7 @@ typedef struct s_player
 	double	x;
 	double	y;
 	long	has_moved;
+	long	rotate;
 	double		angle;
 	int		move_x;
 	int		move_y;

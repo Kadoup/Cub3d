@@ -70,16 +70,15 @@ int	move_backward(t_game *game)
 
 int	update_position(t_game *game)
 {
-	int	has_moved;
-
-	has_moved = 0;
 	if(game->player.move_x == 1)
-		has_moved += move_right(game);
+		game->player.has_moved += move_right(game);
 	if(game->player.move_x == -1)
-		has_moved += move_left(game);
+		game->player.has_moved += move_left(game);
 	if(game->player.move_y == 1)
-		has_moved += move_forward(game);
+		game->player.has_moved += move_forward(game);
 	if(game->player.move_y == -1)
-		has_moved += move_backward(game);
-	return (has_moved);
+		game->player.has_moved += move_backward(game);
+	if(game->player.rotate == 1)
+		game->player.has_moved += 1;
+	return (game->player.has_moved);
 }

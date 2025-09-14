@@ -133,6 +133,8 @@ void	init_game(t_game *game, char **argv)
 	game->player.angle = 0;
 	game->player.move_x = 0;
 	game->player.move_y = 0;
+	game->player.rotate = 0;
+	game->player.has_moved = 0;
 	getmapdimensions(game, argv[1]);
 	game->map = malloc(sizeof(char *) * game->height);
 	readmapfromfile(game, argv[1]);

@@ -155,7 +155,7 @@ void	cast_rays(t_game *game)
 	{
 		ray_angle = start_angle + (i * angle_step);
 		while (ray_angle < 0)
-			ray_angle += 2 * PI;
+			ray_angle = 2 * PI;
 		while (ray_angle >= 2 * PI)
 			ray_angle -= 2 * PI;
 		init_ray(game, ray_angle);
@@ -233,8 +233,9 @@ void	render_game(t_game *game)
 int	render(t_game *game)
 {
 	game->player.has_moved = update_position(game);
-	// if (!game->player.has_moved)
-	// 	return (0);
+	if (!game->player.has_moved)
+		return (0);
 	render_game(game);
+	game->player.has_moved = 0;
 	return (0);
 }

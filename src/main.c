@@ -116,9 +116,15 @@ void	init_texture_pixels(t_game *game)
 int	key_press(int keycode, t_game *game)
 {
 	if (keycode == 65361)
+	{
 		game->player.angle -= 5 * (PI / 180);
+		game->player.rotate = 1;
+	}
 	if (keycode == 65363)
+	{
 		game->player.angle += 5 * (PI / 180);
+		game->player.rotate = 1;
+	}
 	if (keycode == 119)
 		game->player.move_y = 1;
 	if (keycode == 115)
