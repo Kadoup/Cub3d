@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:56:30 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/09/14 04:44:37 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/09/14 04:53:48 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,15 @@ void	get_player_position(t_game *game)
 			{
 				game->player.x = j + 0.5;
 				game->player.y = i + 0.5;
-				if (game->map[i][j] == 'N')
+				game->player.dir = game->map[i][j];
+				game->map[i][j] = '0';
+				if (game->player.dir == 'N')
 					game->player.angle = 3 * PI / 2;
-				else if (game->map[i][j] == 'S')
+				else if (game->player.dir == 'S')
 					game->player.angle = PI / 2;
-				else if (game->map[i][j] == 'E')
+				else if (game->player.dir == 'E')
 					game->player.angle = 0;
-				else if (game->map[i][j] == 'W')
+				else if (game->player.dir == 'W')
 					game->player.angle = PI;
 				return ;
 			}
