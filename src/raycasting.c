@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 18:48:32 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/09/14 05:07:25 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/09/15 15:54:35 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	process_dda(t_game *game)
 			game->ray.map_y += game->ray.step_y;
 			game->ray.side = 1;
 		}
-		if (game->map[game->ray.map_y][game->ray.map_x] > '0')
+		if (game->map[game->ray.map_y][game->ray.map_x] != '0')
 			hit = 1;
 	}
 }
@@ -78,9 +78,13 @@ void	process_dda(t_game *game)
 void	calc_line_height(t_game *game, float ray_angle)
 {
 	if (game->ray.side == 0)
+	{
 		game->ray.wall_dist = (game->ray.sidedist_x - game->ray.deltadist_x);
+	}
 	else
+	{
 		game->ray.wall_dist = (game->ray.sidedist_y - game->ray.deltadist_y);
+	}
 	game->ray.wall_dist *= cos(ray_angle - game->player.angle);
 	game->ray.line_height = (int)(S_HEIGHT / game->ray.wall_dist);
 }
@@ -148,14 +152,16 @@ void	cast_rays(t_game *game)
 	float	start_angle;
 
 	i = 0;
+	int half_width = S_WIDTH / 2;
+	float seglen = tan((80 * (PI / 180)) / S_WIDTH);
 	angle_step = (80 * (PI / 180)) / S_WIDTH;
 	start_angle = game->player.angle - ((80 * (PI / 180)) / 2);
 	game->ray.offset = 0;
 	while (i < S_WIDTH)
 	{
-		ray_angle = start_angle + (i * angle_step);
+		ray_angle = game->player.angle + atan((i - half_width) * seglen);
 		while (ray_angle < 0)
-			ray_angle = 2 * PI;
+			ray_angle += 2 * PI;
 		while (ray_angle >= 2 * PI)
 			ray_angle -= 2 * PI;
 		init_ray(game, ray_angle);
