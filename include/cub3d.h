@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:32:14 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/09/14 05:03:00 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/09/16 19:02:49 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ typedef struct s_player
 typedef struct s_tinfo
 {
 	int		nb_textures;
+	int		size;
 	char	*no;
 	char	*so;
 	char	*we;
@@ -113,5 +114,7 @@ void	init_texture_pixels(t_game *game);
 int		render(t_game *game);
 int	update_position(t_game *game);
 void	render_game(t_game *game);
+void	init_texture_img(t_game *data, t_img *image, char *path);
+void	init_img_clean(t_img *img);
 
 #endif

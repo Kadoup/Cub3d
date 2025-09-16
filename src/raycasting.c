@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 18:48:32 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/09/15 15:58:40 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/09/16 20:16:32 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,35 +89,80 @@ void	calc_line_height(t_game *game, float ray_angle)
 	game->ray.line_height = (int)(S_HEIGHT / game->ray.wall_dist);
 }
 
+int	get_text_index(t_game *game)
+{
+	if (game->ray.side == 0)
+	{
+		if (game->ray.dir_x > 0)
+			return EAST;
+		else
+			return WEST;
+	}
+	else
+	{
+		if (game->ray.dir_y > 0)
+			return SOUTH;
+		else
+			return NORTH;
+	}
+}
+
+// void	init_img(t_data *data, t_img *image, int width, int height)
+// {
+// 	init_img_clean(image);
+// 	image->img = mlx_new_image(data->mlx, width, height);
+// 	image->addr = (int *)mlx_get_data_addr(image->img, &image->bits_per_pixel,
+// 			&image->line_length, &image->endian);
+// 	return ;
+// }
+
+void	init_texture_img(t_game *data, t_img *image, char *path)
+{
+	init_img_clean(image);
+	image->img = mlx_xpm_file_to_image(data->mlx, path, &data->tinfo.size,
+			&data->tinfo.size);
+	image->addr = (int *)mlx_get_data_addr(image->img, &image->bits_per_pixel,
+			&image->line_length, &image->endian);
+	return ;
+}
+
 void	draw_wall_line(t_game *game, int x)
 {
 	int	y;
 	int end;
-	int color;
+	int	text_index;
+	// int color;
 
 	y = -game->ray.line_height / 2 + S_HEIGHT / 2;
 	end = game->ray.line_height / 2 + S_HEIGHT / 2;
-	
-	// Determine wall direction more precisely
-	if (game->ray.side == 0) // Vertical wall (NS walls)
-	{
-		if (game->ray.dir_x > 0)
-			color = 0x0000FF00; // Green for East-facing wall
-		else
-			color = 0x00FF0000; // Red for West-facing wall
-	}
-	else // Horizontal wall (EW walls)
-	{
-		if (game->ray.dir_y > 0)
-			color = 0x00FFFF00; // Yellow for South-facing wall
-		else
-			color = 0x000000FF; // Blue for North-facing wall
-	}
-	
+	text_index = get_text_index(game);
 	while (y < end)
 	{
-		if (y >= 0 && y < S_HEIGHT) // Add bounds checking
-			game->texture_pixels[y][x] = color;
+		if (y >= 0 && y < S_HEIGHT)
+		{
+			int line_height = game->ray.line_height;
+			int tex_y = ((y - (-line_height / 2 + S_HEIGHT / 2)) * game->tinfo.size) / line_height;
+			if (tex_y < 0) tex_y = 0;
+			if (tex_y >= game->tinfo.size) tex_y = game->tinfo.size - 1;
+			double wall_x;
+			if (game->ray.side == 0)
+				wall_x = game->player.y + game->ray.wall_dist * game->ray.dir_y;
+			else
+				wall_x = game->player.x + game->ray.wall_dist * game->ray.dir_x;
+
+			wall_x -= floor(wall_x);
+
+			int tex_x = (int)(wall_x * game->tinfo.size);
+			if (game->ray.side == 0 && game->ray.dir_x > 0)
+				tex_x = game->tinfo.size - tex_x - 1;
+			if (game->ray.side == 1 && game->ray.dir_y < 0)
+				tex_x = game->tinfo.size - tex_x - 1;
+
+			if (tex_x < 0) tex_x = 0;
+			if (tex_x >= game->tinfo.size) tex_x = game->tinfo.size - 1;
+
+			game->texture_pixels[y][x] = game->textures[text_index][game->tinfo.size * y + x];
+		}
 		y++;
 	}
 }
@@ -147,15 +192,15 @@ void	cast_single_ray(t_game *game, int x, float ray_angle)
 void	cast_rays(t_game *game)
 {
 	int		i;
-	float	angle_step;
+	// float	angle_step;
 	float	ray_angle;
-	float	start_angle;
+	// float	start_angle;
 
 	i = 0;
 	int half_width = S_WIDTH / 2;
 	float seglen = tan((80 * (PI / 180)) / S_WIDTH);
-	angle_step = (80 * (PI / 180)) / S_WIDTH;
-	start_angle = game->player.angle - ((80 * (PI / 180)) / 2);
+	// angle_step = (80 * (PI / 180)) / S_WIDTH;
+	// start_angle = game->player.angle - ((80 * (PI / 180)) / 2);
 	game->ray.offset = 0;
 	while (i < S_WIDTH)
 	{
