@@ -1,7 +1,7 @@
 NO textures/simonkraft/wet_sponge.xpm
-SO textures/simonkraft/soul_sand.xpm
-WE textures/simonkraft/test2.xpm
-EA textures/simonkraft/cobblestone_01.xpm
+EA textures/simonkraft/testtexture.xpm
+WE textures/simonkraft/cobblestone_01.xpm
+SO textures/simonkraft/test2.xpm
 F 220,100,0
 C 225,30,255
 

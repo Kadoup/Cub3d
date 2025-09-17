@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:56:30 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/09/17 15:18:57 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/09/17 17:21:23 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,24 +92,24 @@ void	init_mlx(t_game *game)
 	game->win = mlx_new_window(game->mlx, 1152, 864, "cub3d");
 }
 
-static int	*xpm_to_img(t_game *data, char *path)
+static int	*xpm_to_img(t_game *data, t_singletex *texture)
 {
 	t_img	tmp;
 	int		*buffer;
 	int		x;
 	int		y;
 
-	init_texture_img(data, &tmp, path);
+	init_texture_img(data, &tmp, texture);
 	buffer = ft_calloc(1,
-			sizeof * buffer * data->tinfo.size * data->tinfo.size);
+			sizeof * buffer * texture->size * texture->size);
 	y = 0;
-	while (y < data->tinfo.size)
+	while (y < texture->size)
 	{
 		x = 0;
-		while (x < data->tinfo.size)
+		while (x < texture->size)
 		{
-			buffer[y * data->tinfo.size + x]
-				= tmp.addr[y * data->tinfo.size + x];
+			buffer[y * texture->size + x]
+				= tmp.addr[y * texture->size + x];
 			++x;
 		}
 		y++;
@@ -122,10 +122,10 @@ void	init_textures(t_game *game)
 {
 	(void)game;
 	game->textures = malloc(sizeof(int *) * 4);
-	game->textures[NORTH] = xpm_to_img(game, game->tinfo.no);
-	game->textures[SOUTH] = xpm_to_img(game, game->tinfo.so);
-	game->textures[EAST] = xpm_to_img(game, game->tinfo.ea);
-	game->textures[WEST] = xpm_to_img(game, game->tinfo.we);
+	game->textures[NORTH] = xpm_to_img(game, &game->tinfo.no);
+	game->textures[SOUTH] = xpm_to_img(game, &game->tinfo.so);
+	game->textures[EAST] = xpm_to_img(game, &game->tinfo.ea);
+	game->textures[WEST] = xpm_to_img(game, &game->tinfo.we);
 }
 
 void	init_texture_pixels(t_game *game)

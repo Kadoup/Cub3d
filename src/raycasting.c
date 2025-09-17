@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 18:48:32 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/09/17 16:19:31 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/09/17 17:25:23 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,16 +118,28 @@ int	get_text_index(t_game *game)
 // 	return ;
 // }
 
-void	init_texture_img(t_game *data, t_img *image, char *path)
+void	init_texture_img(t_game *data, t_img *image, t_singletex *texture)
 {
 	init_img_clean(image);
-	image->img = mlx_xpm_file_to_image(data->mlx, path, &data->tinfo.size,
-			&data->tinfo.size);
+	image->img = mlx_xpm_file_to_image(data->mlx, texture->texdir, &texture->size,
+			&texture->size);
 	if (image->img == NULL)
 		exit(1);
 	image->addr = (int *)mlx_get_data_addr(image->img, &image->bits_per_pixel,
 			&image->line_length, &image->endian);
 	return ;
+}
+
+void	set_size_text(t_game *game, int text_index)
+{
+	if (text_index == NORTH)
+		game->tinfo.size = game->tinfo.no.size;
+	if (text_index == SOUTH)
+		game->tinfo.size = game->tinfo.so.size;
+	if (text_index == EAST)
+		game->tinfo.size = game->tinfo.ea.size;
+	if (text_index == WEST)
+		game->tinfo.size = game->tinfo.we.size;
 }
 
 void	draw_wall_line(t_game *game, int x)
@@ -140,6 +152,7 @@ void	draw_wall_line(t_game *game, int x)
 	y = -game->ray.line_height / 2 + S_HEIGHT / 2;
 	end = game->ray.line_height / 2 + S_HEIGHT / 2;
 	text_index = get_text_index(game);
+	set_size_text(game, text_index);
 	while (y < end)
 	{
 		if (y >= 0 && y < S_HEIGHT)

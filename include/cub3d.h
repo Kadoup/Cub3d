@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:32:14 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/09/17 16:27:32 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/09/17 17:21:39 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,20 +63,20 @@ typedef struct s_player
 	
 }				t_player;
 
-typedef struct s_texsize
+typedef struct s_singletex
 {
+	char	*texdir;
 	int		size;
-	char *texdir;
-}			t_texsize;
+}			t_singletex;
 
 typedef struct s_tinfo
 {
 	int		nb_textures;
 	int		size;
-	char	*no;
-	char	*so;
-	char	*we;
-	char	*ea;
+	t_singletex no;
+	t_singletex we;
+	t_singletex ea;
+	t_singletex so;
 	char	*floor_color;
 	char	*ceiling_color;
 }				t_tinfo;
@@ -121,7 +121,7 @@ void	init_texture_pixels(t_game *game);
 int		render(t_game *game);
 int	update_position(t_game *game);
 void	render_game(t_game *game);
-void	init_texture_img(t_game *data, t_img *image, char *path);
+void	init_texture_img(t_game *data, t_img *image, t_singletex *texture);
 void	init_img_clean(t_img *img);
 
 #endif

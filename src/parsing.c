@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:11:15 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/09/14 04:16:41 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/09/17 17:18:15 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 int	get_textures(t_game *game, char *line)
 {
 	if (ft_strncmp(line, "NO ", 3) == 0)
-		game->tinfo.no = ft_strtrim(line + 3, " \n");
+		game->tinfo.no.texdir = ft_strtrim(line + 3, " \n");
 	else if (ft_strncmp(line, "SO ", 3) == 0)
-		game->tinfo.so = ft_strtrim(line + 3, " \n");
+		game->tinfo.so.texdir = ft_strtrim(line + 3, " \n");
 	else if (ft_strncmp(line, "WE ", 3) == 0)
-		game->tinfo.we = ft_strtrim(line + 3, " \n");
+		game->tinfo.we.texdir = ft_strtrim(line + 3, " \n");
 	else if (ft_strncmp(line, "EA ", 3) == 0)
-		game->tinfo.ea = ft_strtrim(line + 3, " \n");
+		game->tinfo.ea.texdir = ft_strtrim(line + 3, " \n");
 	else if (ft_strncmp(line, "F ", 2) == 0)
 		game->tinfo.floor_color = ft_strtrim(line + 2, " \n");
 	else if (ft_strncmp(line, "C ", 2) == 0)
@@ -113,13 +113,19 @@ bool	check_edges(t_game *game, int x, int y, char **visited)
 	return true;
 }
 
+void	init_singletex(t_singletex *infos)
+{
+	infos->size = 0;
+	infos->texdir = NULL;
+}
+
 void	init_tinfo(t_tinfo *tinfo)
 {
 	tinfo->nb_textures = 0;
-	tinfo->no = NULL;
-	tinfo->so = NULL;
-	tinfo->we = NULL;
-	tinfo->ea = NULL;
+	init_singletex(&tinfo->no);
+	init_singletex(&tinfo->so);
+	init_singletex(&tinfo->we);
+	init_singletex(&tinfo->ea);
 	tinfo->floor_color = NULL;
 	tinfo->ceiling_color = NULL;
 }

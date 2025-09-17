@@ -6,25 +6,70 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 19:30:11 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/09/17 16:00:39 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/09/17 17:53:35 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	move_right(t_game *game)
-{
-	double	new_x;
-	double	new_y;
+#define COLLISION_BUFFER 0.1
 
-	new_x = game->player.x + cos(game->player.angle + PI/2) * MOVE_SPEED;
-	new_y = game->player.y + sin(game->player.angle + PI/2) * MOVE_SPEED;
-	if (game->map[(int)game->player.y][(int)(new_x)] != '1')
-		game->player.x = new_x;
-	if (game->map[(int)(new_y)][(int)game->player.x] != '1')
-		game->player.y = new_y;
-	return (1);
-}
+// int	move_right(t_game *game)
+// {
+// 	double	new_x;
+// 	double	new_y;
+
+// 	new_x = game->player.x + cos(game->player.angle + PI/2) * MOVE_SPEED;
+// 	new_y = game->player.y + sin(game->player.angle + PI/2) * MOVE_SPEED;
+// 	if (game->map[(int)game->player.y][(int)(new_x)] != '1')
+// 		game->player.x = new_x;
+// 	if (game->map[(int)(new_y)][(int)game->player.x] != '1')
+// 		game->player.y = new_y;
+// 	return (1);
+// }
+
+// int	move_left(t_game *game)
+// {
+// 	double	new_x;
+// 	double	new_y;
+
+// 	new_x = game->player.x + cos(game->player.angle - PI/2) * MOVE_SPEED;
+// 	new_y = game->player.y + sin(game->player.angle - PI/2) * MOVE_SPEED;
+// 	if (game->map[(int)game->player.y][(int)(new_x)] != '1')
+// 		game->player.x = new_x;
+// 	if (game->map[(int)(new_y)][(int)game->player.x] != '1')
+// 		game->player.y = new_y;
+// 	return (1);
+// }
+
+
+// int	move_forward(t_game *game)
+// {
+// 	double	new_x;
+// 	double	new_y;
+
+// 	new_x = game->player.x + cos(game->player.angle) * MOVE_SPEED;
+// 	new_y = game->player.y + sin(game->player.angle) * MOVE_SPEED;
+// 	if (game->map[(int)game->player.y][(int)(new_x)] != '1')
+// 		game->player.x = new_x;
+// 	if (game->map[(int)(new_y)][(int)game->player.x] != '1')
+// 		game->player.y = new_y;
+// 	return (1);
+// }
+
+// int	move_backward(t_game *game)
+// {
+// 	double	new_x;
+// 	double	new_y;
+
+// 	new_x = game->player.x - cos(game->player.angle) * MOVE_SPEED;
+// 	new_y = game->player.y - sin(game->player.angle) * MOVE_SPEED;
+// 	if (game->map[(int)game->player.y][(int)new_x] != '1')
+// 		game->player.x = new_x;
+// 	if (game->map[(int)new_y][(int)game->player.x] != '1')
+// 		game->player.y = new_y;
+// 	return (1);
+// }
 
 int	move_left(t_game *game)
 {
@@ -33,29 +78,32 @@ int	move_left(t_game *game)
 
 	new_x = game->player.x + cos(game->player.angle - PI/2) * MOVE_SPEED;
 	new_y = game->player.y + sin(game->player.angle - PI/2) * MOVE_SPEED;
-	if (game->map[(int)game->player.y][(int)(new_x)] != '1')
-		game->player.x = new_x;
-	if (game->map[(int)(new_y)][(int)game->player.x] != '1')
-		game->player.y = new_y;
+	if (game->map[(int)(new_y + COLLISION_BUFFER)][(int)(new_x + COLLISION_BUFFER)] == '1' ||
+		game->map[(int)(new_y + COLLISION_BUFFER)][(int)(new_x - COLLISION_BUFFER)] == '1' ||
+		game->map[(int)(new_y - COLLISION_BUFFER)][(int)(new_x + COLLISION_BUFFER)] == '1' ||
+		game->map[(int)(new_y - COLLISION_BUFFER)][(int)(new_x - COLLISION_BUFFER)] == '1')
+		return (1);
+	game->player.x = new_x;
+	game->player.y = new_y;
 	return (1);
 }
 
-// int	move_forward(t_game *game)
-// {
-// 	double	new_x;
-// 	double	new_y;
-// 	double	buffer = 0.1; // Small buffer to prevent clipping
+int	move_right(t_game *game)
+{
+	double	new_x;
+	double	new_y;
 
-// 	new_x = game->player.x + cos(game->player.angle) * MOVE_SPEED;
-// 	new_y = game->player.y + sin(game->player.angle) * MOVE_SPEED;
-	
-// 	// Check with buffer
-// 	if (game->map[(int)(game->player.y)][(int)(new_x + (new_x > game->player.x ? buffer : -buffer))] != '1')
-// 		game->player.x = new_x;
-// 	if (game->map[(int)(new_y + (new_y > game->player.y ? buffer : -buffer))][(int)(game->player.x)] != '1')
-// 		game->player.y = new_y;
-// 	return (1);
-// }
+	new_x = game->player.x + cos(game->player.angle + PI/2) * MOVE_SPEED;
+	new_y = game->player.y + sin(game->player.angle + PI/2) * MOVE_SPEED;
+	if (game->map[(int)(new_y + COLLISION_BUFFER)][(int)(new_x + COLLISION_BUFFER)] == '1' ||
+		game->map[(int)(new_y + COLLISION_BUFFER)][(int)(new_x - COLLISION_BUFFER)] == '1' ||
+		game->map[(int)(new_y - COLLISION_BUFFER)][(int)(new_x + COLLISION_BUFFER)] == '1' ||
+		game->map[(int)(new_y - COLLISION_BUFFER)][(int)(new_x - COLLISION_BUFFER)] == '1')
+		return (1);
+	game->player.x = new_x;
+	game->player.y = new_y;
+	return (1);
+}
 
 int	move_forward(t_game *game)
 {
@@ -64,10 +112,13 @@ int	move_forward(t_game *game)
 
 	new_x = game->player.x + cos(game->player.angle) * MOVE_SPEED;
 	new_y = game->player.y + sin(game->player.angle) * MOVE_SPEED;
-	if (game->map[(int)game->player.y][(int)(new_x)] != '1')
-		game->player.x = new_x;
-	if (game->map[(int)(new_y)][(int)game->player.x] != '1')
-		game->player.y = new_y;
+	if (game->map[(int)(new_y + COLLISION_BUFFER)][(int)(new_x + COLLISION_BUFFER)] == '1' ||
+		game->map[(int)(new_y + COLLISION_BUFFER)][(int)(new_x - COLLISION_BUFFER)] == '1' ||
+		game->map[(int)(new_y - COLLISION_BUFFER)][(int)(new_x + COLLISION_BUFFER)] == '1' ||
+		game->map[(int)(new_y - COLLISION_BUFFER)][(int)(new_x - COLLISION_BUFFER)] == '1')
+		return (1);
+	game->player.x = new_x;
+	game->player.y = new_y;
 	return (1);
 }
 
@@ -78,10 +129,13 @@ int	move_backward(t_game *game)
 
 	new_x = game->player.x - cos(game->player.angle) * MOVE_SPEED;
 	new_y = game->player.y - sin(game->player.angle) * MOVE_SPEED;
-	if (game->map[(int)game->player.y][(int)new_x] != '1')
-		game->player.x = new_x;
-	if (game->map[(int)new_y][(int)game->player.x] != '1')
-		game->player.y = new_y;
+	if (game->map[(int)(new_y + COLLISION_BUFFER)][(int)(new_x + COLLISION_BUFFER)] == '1' ||
+		game->map[(int)(new_y + COLLISION_BUFFER)][(int)(new_x - COLLISION_BUFFER)] == '1' ||
+		game->map[(int)(new_y - COLLISION_BUFFER)][(int)(new_x + COLLISION_BUFFER)] == '1' ||
+		game->map[(int)(new_y - COLLISION_BUFFER)][(int)(new_x - COLLISION_BUFFER)] == '1')
+		return (1);
+	game->player.x = new_x;
+	game->player.y = new_y;
 	return (1);
 }
 
