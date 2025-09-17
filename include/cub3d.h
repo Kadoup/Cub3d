@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:32:14 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/09/16 19:02:49 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/09/17 16:27:32 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # define S_WIDTH 1152
 # define S_HEIGHT 864
 # define PI 3.14159265358979323846
-# define MOVE_SPEED 0.2
+# define MOVE_SPEED 0.1
 
 enum e_tindex
 {
@@ -63,6 +63,12 @@ typedef struct s_player
 	
 }				t_player;
 
+typedef struct s_texsize
+{
+	int		size;
+	char *texdir;
+}			t_texsize;
+
 typedef struct s_tinfo
 {
 	int		nb_textures;
@@ -89,6 +95,7 @@ typedef struct s_ray
 	double	deltadist_x;
 	double	deltadist_y;
 	double	wall_dist;
+	double	wall_dist_true;
 	double	wall_x;
 	int		side;
 	int		line_height;

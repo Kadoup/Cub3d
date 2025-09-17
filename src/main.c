@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:56:30 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/09/16 19:03:41 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/09/17 15:18:57 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ void	get_player_position(t_game *game)
 					game->player.angle = 0;
 				else if (game->player.dir == 'W')
 					game->player.angle = PI;
+				game->player.dir_x = cos(game->player.angle);
+				game->player.dir_y = sin(game->player.angle);
 				return ;
 			}
 			j++;
@@ -141,6 +143,7 @@ void	init_texture_pixels(t_game *game)
 
 int	key_press(int keycode, t_game *game)
 {
+	// printf("%f\n", game->player.angle);
 	if (keycode == 65361)
 	{
 		game->player.angle -= 5 * (PI / 180);

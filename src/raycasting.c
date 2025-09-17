@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 18:48:32 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/09/16 20:16:32 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/09/17 16:19:31 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,15 @@ void	calc_line_height(t_game *game, float ray_angle)
 {
 	if (game->ray.side == 0)
 	{
-		game->ray.wall_dist = (game->ray.sidedist_x - game->ray.deltadist_x);
+		game->ray.wall_dist_true = (game->ray.sidedist_x - game->ray.deltadist_x);
 	}
 	else
 	{
-		game->ray.wall_dist = (game->ray.sidedist_y - game->ray.deltadist_y);
+		game->ray.wall_dist_true = (game->ray.sidedist_y - game->ray.deltadist_y);
 	}
-	game->ray.wall_dist *= cos(ray_angle - game->player.angle);
+	game->ray.wall_dist = game->ray.wall_dist_true * cos(ray_angle - game->player.angle);
+	if (game->ray.wall_dist < 0.001)
+		game->ray.wall_dist = 0.001;	
 	game->ray.line_height = (int)(S_HEIGHT / game->ray.wall_dist);
 }
 
@@ -121,6 +123,8 @@ void	init_texture_img(t_game *data, t_img *image, char *path)
 	init_img_clean(image);
 	image->img = mlx_xpm_file_to_image(data->mlx, path, &data->tinfo.size,
 			&data->tinfo.size);
+	if (image->img == NULL)
+		exit(1);
 	image->addr = (int *)mlx_get_data_addr(image->img, &image->bits_per_pixel,
 			&image->line_length, &image->endian);
 	return ;
@@ -146,10 +150,9 @@ void	draw_wall_line(t_game *game, int x)
 			if (tex_y >= game->tinfo.size) tex_y = game->tinfo.size - 1;
 			double wall_x;
 			if (game->ray.side == 0)
-				wall_x = game->player.y + game->ray.wall_dist * game->ray.dir_y;
+				wall_x = game->player.y + game->ray.wall_dist_true * game->ray.dir_y;
 			else
-				wall_x = game->player.x + game->ray.wall_dist * game->ray.dir_x;
-
+				wall_x = game->player.x + game->ray.wall_dist_true * game->ray.dir_x;
 			wall_x -= floor(wall_x);
 
 			int tex_x = (int)(wall_x * game->tinfo.size);
@@ -161,7 +164,7 @@ void	draw_wall_line(t_game *game, int x)
 			if (tex_x < 0) tex_x = 0;
 			if (tex_x >= game->tinfo.size) tex_x = game->tinfo.size - 1;
 
-			game->texture_pixels[y][x] = game->textures[text_index][game->tinfo.size * y + x];
+			game->texture_pixels[y][x] = game->textures[text_index][game->tinfo.size * tex_y + tex_x];
 		}
 		y++;
 	}
