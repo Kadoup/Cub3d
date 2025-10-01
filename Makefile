@@ -6,7 +6,7 @@
 #    By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/21 14:40:06 by tjourdan          #+#    #+#              #
-#    Updated: 2025/09/11 22:05:46 by tjourdan         ###   ########.fr        #
+#    Updated: 2025/10/01 16:31:32 by tjourdan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ SRCS		=	$(SRC_DIR)/main.c \
 				$(SRC_DIR)/parsing.c \
 				$(SRC_DIR)/move.c \
 				$(SRC_DIR)/raycasting.c \
+				$(SRC_DIR)/utils.c
 
 OBJS		= $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRCS))
 

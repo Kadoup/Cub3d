@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:56:30 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/09/17 17:21:23 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/10/01 16:07:28 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,21 +70,21 @@ void	get_player_position(t_game *game)
 	}
 }
 
-int	check_map(t_game *game)
-{
-	char **visited;
+// int	check_map(t_game *game)
+// {
+// 	char **visited;
 
-	visited = create_visited_array(game);
-	get_player_position(game);
-	if (!check_edges(game, game->player.x, game->player.y, visited))
-	{
+// 	visited = create_visited_array(game);
+// 	get_player_position(game);
+// 	if (!check_edges(game, game->player.x, game->player.y, visited))
+// 	{
 		
-		freemap(game, visited);
-		printf("Error\nMap is not closed\n");
-		return (1);
-	}
-	return (0);
-}
+// 		freemap(game, visited);
+// 		printf("Error\nMap is not closed\n");
+// 		return (1);
+// 	}
+// 	return (0);
+// }
 
 void	init_mlx(t_game *game)
 {
@@ -180,6 +180,8 @@ int	key_release(int key, t_game *game)
 		game->player.move_x = 0;
 	if (key == 100)
 		game->player.move_x = 0;
+	if (key == 65361 || key == 65363)
+		game->player.rotate = 0;
 	return (0);
 }
 

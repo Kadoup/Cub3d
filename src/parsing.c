@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:11:15 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/09/17 17:18:15 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/10/01 16:31:08 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,24 +64,45 @@ void	readmapfromfile(t_game *game, char *filepath)
 	int		fd;
 	char	*line;
 	int		i;
+	bool	map_started;
 	
 	fd = open(filepath, O_RDONLY);
 	i = 0;
+	map_started = false;
 	line = gnl(fd);
+	
+	// Skip texture/color lines
 	while (i < game->tinfo.nb_textures && line)
 	{
 		free(line);
 		line = gnl(fd);
 		i++;
 	}
+	
+	// Skip empty lines before map starts
+	while (line && (line[0] == '\n' || line[0] == '\0'))
+	{
+		free(line);
+		line = gnl(fd);
+	}
+	
 	i = 0;
 	while (line != NULL)
 	{
-		if (line[0] != '\n')
+		if (line[0] != '\n' && line[0] != '\0')
 		{
+			map_started = true;
 			game->map[i] = malloc(sizeof(char) * (ft_strlen(line)));
 			ft_strlcpy(game->map[i], line, ft_strlen(line));
 			i++;
+		}
+		else if (map_started)
+		{
+			// Empty line found after map started - this is an error
+			free(line);
+			close(fd);
+			printf("Error\nEmpty lines not allowed within map\n");
+			exit(0);
 		}
 		free(line);
 		line = gnl(fd);
@@ -89,6 +110,38 @@ void	readmapfromfile(t_game *game, char *filepath)
 	free(line);
 	close(fd);
 }
+
+
+// void	readmapfromfile(t_game *game, char *filepath)
+// {
+// 	int		fd;
+// 	char	*line;
+// 	int		i;
+	
+// 	fd = open(filepath, O_RDONLY);
+// 	i = 0;
+// 	line = gnl(fd);
+// 	while (i < game->tinfo.nb_textures && line)
+// 	{
+// 		free(line);
+// 		line = gnl(fd);
+// 		i++;
+// 	}
+// 	i = 0;
+// 	while (line != NULL)
+// 	{
+// 		if (line[0] != '\n')
+// 		{
+// 			game->map[i] = malloc(sizeof(char) * (ft_strlen(line)));
+// 			ft_strlcpy(game->map[i], line, ft_strlen(line));
+// 			i++;
+// 		}
+// 		free(line);
+// 		line = gnl(fd);
+// 	}
+// 	free(line);
+// 	close(fd);
+// }
 
 bool	check_edges(t_game *game, int x, int y, char **visited)
 {
@@ -111,6 +164,77 @@ bool	check_edges(t_game *game, int x, int y, char **visited)
 	if (!check_edges(game, x, y - 1, visited))
 		return false;
 	return true;
+}
+
+bool	is_valid_map_char(char c)
+{
+	return (c == '0' || c == '1' || c == 'N' || c == 'S' || c == 'E' || c == 'W' || c == ' ');
+}
+
+bool	check_map_closure(t_game *game)
+{
+	int	i, j;
+	
+	// Check each cell in the map
+	i = 0;
+	while (i < game->height)
+	{
+		j = 0;
+		while (j < (int)ft_strlen(game->map[i]))
+		{
+			// If we find a walkable space (0, N, S, E, W)
+			if (game->map[i][j] == '0' || game->map[i][j] == 'N' || 
+				game->map[i][j] == 'S' || game->map[i][j] == 'E' || 
+				game->map[i][j] == 'W')
+			{
+				// Check if it's on the border
+				if (i == 0 || i == game->height - 1 || 
+					j == 0 || j == (int)ft_strlen(game->map[i]) - 1)
+					return (false);
+				
+				// Check all 4 directions for walls or valid chars
+				if (i > 0 && (game->map[i-1][j] == ' ' || 
+					(j >= (int)ft_strlen(game->map[i-1]) && game->map[i-1][j] == '\0')))
+					return (false);
+				if (i < game->height - 1 && (game->map[i+1][j] == ' ' || 
+					(j >= (int)ft_strlen(game->map[i+1]) && game->map[i+1][j] == '\0')))
+					return (false);
+				if (j > 0 && game->map[i][j-1] == ' ')
+					return (false);
+				if (j < (int)ft_strlen(game->map[i]) - 1 && game->map[i][j+1] == ' ')
+					return (false);
+			}
+			j++;
+		}
+		i++;
+	}
+	return (true);
+}
+
+int	check_map(t_game *game)
+{
+	char **visited;
+
+	// First check if map is properly closed
+	if (!check_map_closure(game))
+	{
+		printf("Error\nMap is not properly closed\n");
+		return (1);
+	}
+
+	visited = create_visited_array(game);
+	get_player_position(game);
+	
+	// Then check reachability from player position
+	if (!check_edges(game, game->player.x, game->player.y, visited))
+	{
+		freemap(game, visited);
+		printf("Error\nMap is not closed\n");
+		return (1);
+	}
+	
+	freemap(game, visited);
+	return (0);
 }
 
 void	init_singletex(t_singletex *infos)
@@ -144,4 +268,6 @@ void	init_game(t_game *game, char **argv)
 	getmapdimensions(game, argv[1]);
 	game->map = malloc(sizeof(char *) * game->height);
 	readmapfromfile(game, argv[1]);
+	if (convert_colors_to_hex(game))
+		exit(1);
 }

@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 18:48:32 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/09/17 17:25:23 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/10/01 16:30:47 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,9 +262,9 @@ static void	set_frame_image_pixel(t_game *data, t_img *image, int x, int y)
 	if (data->texture_pixels[y][x] > 0)
 		set_image_pixel(image, x, y, data->texture_pixels[y][x]);
 	else if (y < S_HEIGHT / 2)
-		set_image_pixel(image, x, y, 0xFF87CEEB);
+		set_image_pixel(image, x, y, data->tinfo.ceiling_color_hex);
 	else if (y < S_HEIGHT - 1)
-		set_image_pixel(image, x, y, 0xFF7C000);
+		set_image_pixel(image, x, y, data->tinfo.floor_color_hex);
 }
 
 static void	render_frame(t_game *data)

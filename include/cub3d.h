@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:32:14 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/09/17 17:21:39 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/10/01 16:28:56 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ typedef struct s_tinfo
 	t_singletex we;
 	t_singletex ea;
 	t_singletex so;
+	int		floor_color_hex;
+	int		ceiling_color_hex;
 	char	*floor_color;
 	char	*ceiling_color;
 }				t_tinfo;
@@ -119,9 +121,13 @@ bool	check_edges(t_game *game, int x, int y, char **visited);
 void	freemap(t_game *game, char **map);
 void	init_texture_pixels(t_game *game);
 int		render(t_game *game);
-int	update_position(t_game *game);
+int		update_position(t_game *game);
 void	render_game(t_game *game);
 void	init_texture_img(t_game *data, t_img *image, t_singletex *texture);
 void	init_img_clean(t_img *img);
+int		check_map(t_game *game);
+void	get_player_position(t_game *game);
+char	**create_visited_array(t_game *game);
+int		convert_colors_to_hex(t_game *game);
 
 #endif
