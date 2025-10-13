@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 18:48:32 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/10/13 18:10:48 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/10/13 19:50:24 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,6 @@ void	draw_wall_line(t_game *game, int x)
 
 			if (tex_x < 0) tex_x = 0;
 			if (tex_x >= game->tinfo.size) tex_x = game->tinfo.size - 1;
-
 			game->texture_pixels[y][x] = game->textures[text_index][game->tinfo.size * tex_y + tex_x];
 		}
 		y++;
