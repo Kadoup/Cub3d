@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:32:14 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/10/01 16:28:56 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/10/13 18:05:44 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # define S_HEIGHT 864
 # define PI 3.14159265358979323846
 # define MOVE_SPEED 0.1
+#define COLLISION_BUFFER 0.1
 
 enum e_tindex
 {

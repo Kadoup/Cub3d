@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:56:30 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/10/01 16:07:28 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/10/13 18:11:13 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,22 +70,6 @@ void	get_player_position(t_game *game)
 	}
 }
 
-// int	check_map(t_game *game)
-// {
-// 	char **visited;
-
-// 	visited = create_visited_array(game);
-// 	get_player_position(game);
-// 	if (!check_edges(game, game->player.x, game->player.y, visited))
-// 	{
-		
-// 		freemap(game, visited);
-// 		printf("Error\nMap is not closed\n");
-// 		return (1);
-// 	}
-// 	return (0);
-// }
-
 void	init_mlx(t_game *game)
 {
 	game->mlx = mlx_init();
@@ -118,6 +102,7 @@ static int	*xpm_to_img(t_game *data, t_singletex *texture)
 	return (buffer);
 }
 
+
 void	init_textures(t_game *game)
 {
 	(void)game;
@@ -136,14 +121,20 @@ void	init_texture_pixels(t_game *game)
 	i = 0;
 	while (i < S_HEIGHT)
 	{
-		game->texture_pixels[i] = ft_calloc((S_WIDTH ), sizeof(int));
+		game->texture_pixels[i] = ft_calloc((S_WIDTH), sizeof(int));
 		i++;
 	}
 }
 
+int	close_window(t_game *game)
+{
+	freemap(game, game->map);
+	exit(0);
+	return (0);
+}
+
 int	key_press(int keycode, t_game *game)
 {
-	// printf("%f\n", game->player.angle);
 	if (keycode == 65361)
 	{
 		game->player.angle -= 5 * (PI / 180);
@@ -163,10 +154,7 @@ int	key_press(int keycode, t_game *game)
 	if (keycode == 100)
 		game->player.move_x = 1;
 	if (keycode == 65307)
-	{
-		freemap(game, game->map);
-		exit(0);
-	}
+		close_window(game);
 	return (0);
 }
 
@@ -194,7 +182,6 @@ void	key_hooks(t_game *game)
 int	main(int argc, char **argv)
 {
 	t_game game;
-	// char **visited;
 	if (argc != 2)
 	{
 		printf("Error\nWrong number of arguments\n");
@@ -206,8 +193,8 @@ int	main(int argc, char **argv)
 	init_mlx(&game);
 	init_textures(&game);
 	key_hooks(&game);
+	mlx_hook(game.win, 17, 0, close_window, &game);
 	render_game(&game);
 	mlx_loop_hook(game.mlx, render, &game);
 	mlx_loop(game.mlx);
-	// freemap(&game, visited);
 }

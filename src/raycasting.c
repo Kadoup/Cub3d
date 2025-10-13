@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 18:48:32 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/10/01 16:30:47 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/10/13 18:10:48 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,15 +109,6 @@ int	get_text_index(t_game *game)
 	}
 }
 
-// void	init_img(t_data *data, t_img *image, int width, int height)
-// {
-// 	init_img_clean(image);
-// 	image->img = mlx_new_image(data->mlx, width, height);
-// 	image->addr = (int *)mlx_get_data_addr(image->img, &image->bits_per_pixel,
-// 			&image->line_length, &image->endian);
-// 	return ;
-// }
-
 void	init_texture_img(t_game *data, t_img *image, t_singletex *texture)
 {
 	init_img_clean(image);
@@ -129,6 +120,7 @@ void	init_texture_img(t_game *data, t_img *image, t_singletex *texture)
 			&image->line_length, &image->endian);
 	return ;
 }
+
 
 void	set_size_text(t_game *game, int text_index)
 {
@@ -147,7 +139,6 @@ void	draw_wall_line(t_game *game, int x)
 	int	y;
 	int end;
 	int	text_index;
-	// int color;
 
 	y = -game->ray.line_height / 2 + S_HEIGHT / 2;
 	end = game->ray.line_height / 2 + S_HEIGHT / 2;
@@ -183,20 +174,6 @@ void	draw_wall_line(t_game *game, int x)
 	}
 }
 
-// void	draw_wall_line(t_game *game, int x)
-// {
-// 	int	y;
-// 	int end;
-
-// 	y = -game->ray.line_height / 2 + S_HEIGHT / 2;
-// 	end = game->ray.line_height / 2 + S_HEIGHT / 2;
-// 	while (y < end)
-// 	{
-// 		game->texture_pixels[y][x] = game->ray.side ? 0x00FF0000 : 0x0000FF00;
-// 		y++;
-// 	}
-// }
-
 void	cast_single_ray(t_game *game, int x, float ray_angle)
 {
 	prep_dda(game);
@@ -208,15 +185,11 @@ void	cast_single_ray(t_game *game, int x, float ray_angle)
 void	cast_rays(t_game *game)
 {
 	int		i;
-	// float	angle_step;
 	float	ray_angle;
-	// float	start_angle;
 
 	i = 0;
 	int half_width = S_WIDTH / 2;
 	float seglen = tan((80 * (PI / 180)) / S_WIDTH);
-	// angle_step = (80 * (PI / 180)) / S_WIDTH;
-	// start_angle = game->player.angle - ((80 * (PI / 180)) / 2);
 	game->ray.offset = 0;
 	while (i < S_WIDTH)
 	{
@@ -257,7 +230,7 @@ void	set_image_pixel(t_img *image, int x, int y, int color)
 	image->addr[pixel] = color;
 }
 
-static void	set_frame_image_pixel(t_game *data, t_img *image, int x, int y)
+void	set_frame_image_pixel(t_game *data, t_img *image, int x, int y)
 {
 	if (data->texture_pixels[y][x] > 0)
 		set_image_pixel(image, x, y, data->texture_pixels[y][x]);
@@ -267,7 +240,7 @@ static void	set_frame_image_pixel(t_game *data, t_img *image, int x, int y)
 		set_image_pixel(image, x, y, data->tinfo.floor_color_hex);
 }
 
-static void	render_frame(t_game *data)
+void	render_frame(t_game *data)
 {
 	t_img	image;
 	int		x;
