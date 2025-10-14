@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:32:14 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/10/13 18:05:44 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/10/14 14:14:23 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,5 +130,8 @@ int		check_map(t_game *game);
 void	get_player_position(t_game *game);
 char	**create_visited_array(t_game *game);
 int		convert_colors_to_hex(t_game *game);
+int		close_window(t_game *game);
+void	free_all_textures(t_game *game, int dofree);
+void	free_textures(t_game *game);
 
 #endif

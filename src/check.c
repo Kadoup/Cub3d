@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 18:34:04 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/10/13 15:33:43 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/10/14 14:15:52 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ void	freemap(t_game *game, char **map)
 	free(map);
 }
 
-void	ft_error(char *mess, t_game *game, int free)
-{
-	ft_putstr_fd(mess, 2);
-	if (free == 1)
-		freemap(game, game->map);
-	exit (1);
-}
+// void	ft_error(char *mess, t_game *game, int free)
+// {
+// 	ft_putstr_fd(mess, 2);
+// 	if (free == 1)
+// 		freemap(game, game->map);
+// 	exit (1);
+// }

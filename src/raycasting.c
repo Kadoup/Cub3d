@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 18:48:32 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/10/13 19:50:24 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/10/14 14:15:17 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,13 +109,37 @@ int	get_text_index(t_game *game)
 	}
 }
 
+void	free_textures(t_game *game)
+{
+	if (game->textures)
+	{
+		if (game->textures[NORTH])
+			free(game->textures[NORTH]);
+		if (game->textures[SOUTH])
+			free(game->textures[SOUTH]);
+		if (game->textures[EAST])
+			free(game->textures[EAST]);
+		if (game->textures[WEST])
+			free(game->textures[WEST]);
+		free(game->textures);
+	}
+}
+
 void	init_texture_img(t_game *data, t_img *image, t_singletex *texture)
 {
 	init_img_clean(image);
 	image->img = mlx_xpm_file_to_image(data->mlx, texture->texdir, &texture->size,
 			&texture->size);
 	if (image->img == NULL)
+	{
+		freemap(data, data->map);
+		free_all_textures(data, 0);
+		free(data->textures);
+		mlx_destroy_window(data->mlx, data->win);
+		mlx_destroy_display(data->mlx);
+		free(data->mlx);
 		exit(1);
+	}
 	image->addr = (int *)mlx_get_data_addr(image->img, &image->bits_per_pixel,
 			&image->line_length, &image->endian);
 	return ;
