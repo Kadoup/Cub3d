@@ -1,0 +1,20 @@
+{
+	"files.associations": {
+		"cstdlib": "c",
+		"cassert": "c",
+		"climits": "c",
+		"cmath": "c",
+		"compare": "c",
+		"concepts": "c",
+		"cstdarg": "c",
+		"cstddef": "c",
+		"cstdio": "c",
+		"exception": "c",
+		"type_traits": "c",
+		"limits": "c",
+		"new": "c",
+		"cstdbool": "c",
+		"cstdint": "c",
+		"typeinfo": "c"
+	}
+}

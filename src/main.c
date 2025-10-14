@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:56:30 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/10/13 18:11:13 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/10/14 13:05:58 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,20 @@ static int	*xpm_to_img(t_game *data, t_singletex *texture)
 	return (buffer);
 }
 
+void	free_textures(t_game *game)
+{
+	free(game->textures[NORTH]);
+	free(game->textures[SOUTH]);
+	free(game->textures[EAST]);
+	free(game->textures[WEST]);
+	free(game->textures);
+	free(game->tinfo.no.texdir);
+	free(game->tinfo.so.texdir);
+	free(game->tinfo.ea.texdir);
+	free(game->tinfo.we.texdir);
+	free(game->tinfo.ceiling_color);
+	free(game->tinfo.floor_color);
+}
 
 void	init_textures(t_game *game)
 {
@@ -111,6 +125,7 @@ void	init_textures(t_game *game)
 	game->textures[SOUTH] = xpm_to_img(game, &game->tinfo.so);
 	game->textures[EAST] = xpm_to_img(game, &game->tinfo.ea);
 	game->textures[WEST] = xpm_to_img(game, &game->tinfo.we);
+	// free_textures(game);
 }
 
 void	init_texture_pixels(t_game *game)
@@ -128,9 +143,21 @@ void	init_texture_pixels(t_game *game)
 
 int	close_window(t_game *game)
 {
+	int i;
+
 	freemap(game, game->map);
+	i = 0;
+	while (i < S_HEIGHT)
+	{
+		free(game->texture_pixels[i]);
+		i++;
+	}
+	free(game->texture_pixels);
+	free_textures(game);
+	mlx_destroy_window(game->mlx, game->win);
+	mlx_destroy_display(game->mlx);
+	free(game->mlx);
 	exit(0);
-	return (0);
 }
 
 int	key_press(int keycode, t_game *game)
