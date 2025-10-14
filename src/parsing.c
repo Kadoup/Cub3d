@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:11:15 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/10/13 15:57:48 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/10/14 12:43:31 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,52 +58,6 @@ void	getmapdimensions(t_game *game, char *argv)
 	}
 	close(fd);
 }
-
-// void	readmapfromfile(t_game *game, char *filepath)
-// {
-// 	int		fd;
-// 	char	*line;
-// 	int		i;
-// 	bool	map_started;
-	
-// 	fd = open(filepath, O_RDONLY);
-// 	i = 0;
-// 	map_started = false;
-// 	line = gnl(fd);
-// 	while (i < game->tinfo.nb_textures && line)
-// 	{
-// 		free(line);
-// 		line = gnl(fd);
-// 		i++;
-// 	}
-// 	while (line && (line[0] == '\n' || line[0] == '\0'))
-// 	{
-// 		free(line);
-// 		line = gnl(fd);
-// 	}
-// 	i = 0;
-// 	while (line != NULL)
-// 	{
-// 		if (line[0] != '\n' && line[0] != '\0')
-// 		{
-// 			map_started = true;
-// 			game->map[i] = malloc(sizeof(char) * (ft_strlen(line)));
-// 			ft_strlcpy(game->map[i], line, ft_strlen(line));
-// 			i++;
-// 		}
-// 		else if (map_started)
-// 		{
-// 			free(line);
-// 			close(fd);
-// 			printf("Error\nEmpty lines not allowed within map\n");
-// 			exit(0);
-// 		}
-// 		free(line);
-// 		line = gnl(fd);
-// 	}
-// 	free(line);
-// 	close(fd);
-// }
 
 void	skip_textures_and_empty_lines(int fd, t_game *game, char **line)
 {
