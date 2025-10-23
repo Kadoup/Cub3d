@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:11:15 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/10/23 16:36:08 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/10/23 18:23:02 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,13 @@ void	skip_textures_and_empty_lines(int fd, t_game *game, char **line)
 	*line = gnl(fd);
 	while (i < game->tinfo.nb_textures && *line)
 	{
+		if (ft_strncmp(*line, "NO ", 3) == 0 || ft_strncmp(*line, "SO ", 3) == 0 ||
+			ft_strncmp(*line, "WE ", 3) == 0 || ft_strncmp(*line, "EA ", 3) == 0 ||
+			ft_strncmp(*line, "F ", 2) == 0 || ft_strncmp(*line, "C ", 2) == 0)
+			i++;
 		free(*line);
 		*line = gnl(fd);
-		i++;
+		// i++;
 	}
 	while (*line && ((*line)[0] == '\n' || (*line)[0] == '\0'))
 	{
@@ -293,6 +297,23 @@ void	init_tinfo(t_tinfo *tinfo)
 	tinfo->ceiling_color = NULL;
 }
 
+int	validate_textures_and_colors(t_game *game)
+{
+	if (!game->tinfo.no.texdir)
+		return (printf("Error\nMissing NO texture\n"), 1);
+	if (!game->tinfo.so.texdir)
+		return (printf("Error\nMissing SO texture\n"), 1);
+	if (!game->tinfo.we.texdir)
+		return (printf("Error\nMissing WE texture\n"), 1);
+	if (!game->tinfo.ea.texdir)
+		return (printf("Error\nMissing EA texture\n"), 1);
+	if (!game->tinfo.floor_color)
+		return (printf("Error\nMissing floor color (F)\n"), 1);
+	if (!game->tinfo.ceiling_color)
+		return (printf("Error\nMissing ceiling color (C)\n"), 1);
+	return (0);
+}
+
 void	init_game(t_game *game, char **argv)
 {
 	int i;
@@ -308,6 +329,11 @@ void	init_game(t_game *game, char **argv)
 	game->player.rotate = 0;
 	game->player.has_moved = 0;
 	getmapdimensions(game, argv[1]);
+	if (validate_textures_and_colors(game))
+	{
+		cleanup_game(game);
+		exit(1);
+	}
 	game->map = malloc(sizeof(char *) * game->height);
 	while (i < game->height)
 	{

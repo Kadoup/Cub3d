@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:56:30 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/10/23 16:23:02 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/10/23 18:14:28 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,8 +116,7 @@ void	free_all_textures(t_game *game, int dofree)
 
 void	init_textures(t_game *game)
 {
-	(void)game;
-	game->textures = malloc(sizeof(int *) * 4);
+	game->textures = ft_calloc(4, sizeof(int *));
 	game->textures[NORTH] = xpm_to_img(game, &game->tinfo.no);
 	game->textures[SOUTH] = xpm_to_img(game, &game->tinfo.so);
 	game->textures[EAST] = xpm_to_img(game, &game->tinfo.ea);
