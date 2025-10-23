@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 18:48:32 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/10/23 18:13:02 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/10/23 18:55:32 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,8 +139,6 @@ void	init_texture_img(t_game *data, t_img *image, t_singletex *texture)
 		mlx_destroy_window(data->mlx, data->win);
 		mlx_destroy_display(data->mlx);
 		free(data->mlx);
-		printf("hello\n");
-		fflush(stdout);
 		exit (1);
 	}
 	image->addr = (int *)mlx_get_data_addr(image->img, &image->bits_per_pixel,
