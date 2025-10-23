@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:11:15 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/10/23 18:28:05 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/10/23 18:48:21 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -266,6 +266,8 @@ int	check_map(t_game *game)
 	if (!check_map_closure(game))
 	{
 		printf("Error\nMap is not properly closed\n");
+		freemap(game, game->map);
+		free_all_textures(game, 0);
 		return (1);
 	}
 	visited = create_visited_array(game);
@@ -273,6 +275,8 @@ int	check_map(t_game *game)
 	if (!check_edges(game, game->player.x, game->player.y, visited))
 	{
 		freemap(game, visited);
+		freemap(game, game->map);
+		free_all_textures(game, 0);
 		printf("Error\nMap is not closed\n");
 		return (1);
 	}
