@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:11:15 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/10/14 12:43:31 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/10/23 16:36:08 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,11 @@ void	getmapdimensions(t_game *game, char *argv)
 
 	game->height = 0;
 	fd = open(argv, O_RDONLY);
+	if (fd == -1)
+	{
+		printf("Error\nCannot open file\n");
+		exit(1);
+	}
 	while (1)
 	{
 		line = gnl(fd);
@@ -109,10 +114,34 @@ void	handle_map_line(t_game *game, char *line, int *i, bool *map_started)
 	}
 }
 
-void	handle_empty_line_in_map(char *line, int fd)
+void	cleanup_game(t_game *game)
 {
+	if (!game)
+		return;
+	free(game->tinfo.no.texdir);
+	free(game->tinfo.so.texdir);
+	free(game->tinfo.we.texdir);
+	free(game->tinfo.ea.texdir);
+	free(game->tinfo.floor_color);
+	free(game->tinfo.ceiling_color);
+	if (game->map)
+	{
+		int i = 0;
+		while (game->map[i])
+			free(game->map[i++]);
+		free(game->map);
+	}
+}
+
+void	handle_empty_line_in_map(char *line, int fd, t_game *game)
+{
+	char	*tmp;
+
 	free(line);
+	while ((tmp = gnl(fd)) != NULL)
+		free(tmp);
 	close(fd);
+	cleanup_game(game);
 	printf("Error\nEmpty lines not allowed within map\n");
 	exit(0);
 }
@@ -122,7 +151,7 @@ void	process_map_line(t_game *game, char *line, int *i, bool *map_started, int f
 	if (line[0] != '\n' && line[0] != '\0')
 		handle_map_line(game, line, i, map_started);
 	else if (*map_started && check_empty_lines_in_map(fd))
-		handle_empty_line_in_map(line, fd);
+		handle_empty_line_in_map(line, fd, game);
 	else if (*map_started)
 		return;
 }
@@ -266,6 +295,9 @@ void	init_tinfo(t_tinfo *tinfo)
 
 void	init_game(t_game *game, char **argv)
 {
+	int i;
+
+	i = 0;
 	game->map = NULL;
 	init_tinfo(&game->tinfo);
 	game->player.x = -1;
@@ -277,6 +309,11 @@ void	init_game(t_game *game, char **argv)
 	game->player.has_moved = 0;
 	getmapdimensions(game, argv[1]);
 	game->map = malloc(sizeof(char *) * game->height);
+	while (i < game->height)
+	{
+		game->map[i] = NULL;
+		i++;
+	}
 	readmapfromfile(game, argv[1]);
 	if (convert_colors_to_hex(game))
 		exit(1);

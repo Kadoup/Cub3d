@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:56:30 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/10/14 14:14:40 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/10/23 16:23:02 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,7 +212,13 @@ int	main(int argc, char **argv)
 	t_game game;
 	if (argc != 2)
 	{
-		printf("Error\nWrong number of arguments\n");
+		printf("Error\nUsage: ./cub3D <map.cub>\n");
+		return (1);
+	}
+	if (ft_strlen(argv[1]) < 4
+		|| ft_strncmp(argv[1] + (ft_strlen(argv[1]) - 4), ".cub", 4) != 0)
+	{
+		printf("Error\nMap file must have .cub extension\n");
 		return (1);
 	}
 	init_game(&game, argv);
