@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:32:14 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/10/23 18:02:42 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/10/23 18:27:52 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@ int		render(t_game *game);
 int		update_position(t_game *game);
 void	render_game(t_game *game);
 void	init_texture_img(t_game *data, t_img *image, t_singletex *texture);
+bool	validate_color_components(char *color_str);
 void	init_img_clean(t_img *img);
 int		check_map(t_game *game);
 void	get_player_position(t_game *game);

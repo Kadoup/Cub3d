@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:11:15 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/10/23 18:23:02 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/10/23 18:28:05 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -311,6 +311,10 @@ int	validate_textures_and_colors(t_game *game)
 		return (printf("Error\nMissing floor color (F)\n"), 1);
 	if (!game->tinfo.ceiling_color)
 		return (printf("Error\nMissing ceiling color (C)\n"), 1);
+	if (!validate_color_components(game->tinfo.floor_color))
+		return (printf("Error\nInvalid floor color (must be 0-255)\n"), 1);
+	if (!validate_color_components(game->tinfo.ceiling_color))
+		return (printf("Error\nInvalid ceiling color (must be 0-255)\n"), 1);
 	return (0);
 }
 

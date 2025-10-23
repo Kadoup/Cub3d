@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 16:03:28 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/10/01 17:13:08 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/10/23 18:27:46 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,41 @@
 int	rgb_to_hex(int r, int g, int b)
 {
 	return (r << 16) | (g << 8) | b;
+}
+
+bool	validate_rgb_value(int value)
+{
+	return (value >= 0 && value <= 255);
+}
+
+bool	validate_color_components(char *color_str)
+{
+	char	**rgb_split;
+	int		r, g, b;
+	int		i;
+	bool	valid;
+
+	rgb_split = ft_split(color_str, ',');
+	if (!rgb_split || !rgb_split[0] || !rgb_split[1] || !rgb_split[2] || rgb_split[3])
+	{
+		if (rgb_split)
+		{
+			i = 0;
+			while (rgb_split[i])
+				free(rgb_split[i++]);
+			free(rgb_split);
+		}
+		return (false);
+	}
+	r = ft_atoi(rgb_split[0]);
+	g = ft_atoi(rgb_split[1]);
+	b = ft_atoi(rgb_split[2]);
+	valid = validate_rgb_value(r) && validate_rgb_value(g) && validate_rgb_value(b);
+	i = 0;
+	while (rgb_split[i])
+		free(rgb_split[i++]);
+	free(rgb_split);
+	return (valid);
 }
 
 void	free_split(char **str)
