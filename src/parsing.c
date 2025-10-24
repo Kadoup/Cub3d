@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:11:15 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/10/23 18:48:21 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/10/24 13:08:53 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -259,6 +259,47 @@ bool	check_map_closure(t_game *game)
 	return (true);
 }
 
+int	count_players(t_game *game)
+{
+	int		i;
+	size_t	j;
+	int		count;
+
+	count = 0;
+	i = 0;
+	while (i < game->height)
+	{
+		printf("Checking row %d: %s\n", i, game->map[i]);
+		j = 0;
+		while (j < ft_strlen(game->map[i]))
+		{
+			if (game->map[i][j] == 'N' || game->map[i][j] == 'S' ||
+				game->map[i][j] == 'E' || game->map[i][j] == 'W')
+				count++;
+			j++;
+		}
+		i++;
+	}
+	return (count);
+}
+
+int	check_player_count(t_game *game)
+{
+	int	player_count;
+
+	player_count = count_players(game);
+	printf("Player count: %d\n", player_count);
+	if (player_count != 1)
+	{
+		if (player_count == 0)
+			printf("Error\nNo player found in map\n");
+		else
+			printf("Error\nMore than one player found in map\n");
+		return (1);
+	}
+	return (0);
+}
+
 int	check_map(t_game *game)
 {
 	char **visited;
@@ -271,6 +312,13 @@ int	check_map(t_game *game)
 		return (1);
 	}
 	visited = create_visited_array(game);
+	if (check_player_count(game))
+	{
+		freemap(game, visited);
+		freemap(game, game->map);
+		free_all_textures(game, 0);
+		return (1);
+	}
 	get_player_position(game);
 	if (!check_edges(game, game->player.x, game->player.y, visited))
 	{
