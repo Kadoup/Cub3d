@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emalmber <emalmber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 16:03:28 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/10/23 18:27:46 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/10/24 18:22:56 by emalmber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	rgb_to_hex(int r, int g, int b)
 {
-	return (r << 16) | (g << 8) | b;
+	return ((r << 16) | (g << 8) | b);
 }
 
 bool	validate_rgb_value(int value)
@@ -25,12 +25,15 @@ bool	validate_rgb_value(int value)
 bool	validate_color_components(char *color_str)
 {
 	char	**rgb_split;
-	int		r, g, b;
+	int		r;
+	int		g;
+	int		b;
 	int		i;
 	bool	valid;
 
 	rgb_split = ft_split(color_str, ',');
-	if (!rgb_split || !rgb_split[0] || !rgb_split[1] || !rgb_split[2] || rgb_split[3])
+	if (!rgb_split || !rgb_split[0] || !rgb_split[1]
+		|| !rgb_split[2] || rgb_split[3])
 	{
 		if (rgb_split)
 		{
@@ -44,25 +47,13 @@ bool	validate_color_components(char *color_str)
 	r = ft_atoi(rgb_split[0]);
 	g = ft_atoi(rgb_split[1]);
 	b = ft_atoi(rgb_split[2]);
-	valid = validate_rgb_value(r) && validate_rgb_value(g) && validate_rgb_value(b);
+	valid = validate_rgb_value(r) && validate_rgb_value(g)
+		&& validate_rgb_value(b);
 	i = 0;
 	while (rgb_split[i])
 		free(rgb_split[i++]);
 	free(rgb_split);
 	return (valid);
-}
-
-void	free_split(char **str)
-{
-	int	i;
-	
-	i = 0;
-	while (str[i])
-	{
-		free(str[i]);
-		i++;
-	}
-	free(str);
 }
 
 int	convert(char *color_str)
@@ -106,7 +97,5 @@ int	convert_colors_to_hex(t_game *game)
 		game->tinfo.ceiling_color_hex = convert(game->tinfo.ceiling_color);
 	else
 		return (1);
-	return(0);
+	return (0);
 }
-
-

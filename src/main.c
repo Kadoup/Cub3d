@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: emalmber <emalmber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:56:30 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/10/24 13:08:22 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/10/24 17:07:14 by emalmber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 char	**create_visited_array(t_game *game)
 {
 	char	**visited;
-	int		i, j;
-	
+	int		i;
+	int		j;
+
 	visited = malloc(sizeof(char *) * game->height);
 	i = 0;
 	while (i < game->height)
@@ -31,7 +32,7 @@ char	**create_visited_array(t_game *game)
 		visited[i][j] = '\0';
 		i++;
 	}
-	return visited;
+	return (visited);
 }
 
 void	get_player_position(t_game *game)
@@ -45,7 +46,7 @@ void	get_player_position(t_game *game)
 		j = 0;
 		while (j < (int)ft_strlen(game->map[i]))
 		{
-			if (game->map[i][j] == 'N' || game->map[i][j] == 'S' || 
+			if (game->map[i][j] == 'N' || game->map[i][j] == 'S' ||
 				game->map[i][j] == 'E' || game->map[i][j] == 'W')
 			{
 				game->player.x = j + 0.5;
@@ -70,76 +71,9 @@ void	get_player_position(t_game *game)
 	}
 }
 
-void	init_mlx(t_game *game)
-{
-	game->mlx = mlx_init();
-	game->win = mlx_new_window(game->mlx, 1152, 864, "cub3d");
-}
-
-static int	*xpm_to_img(t_game *data, t_singletex *texture)
-{
-	t_img	tmp;
-	int		*buffer;
-	int		x;
-	int		y;
-
-	init_texture_img(data, &tmp, texture);
-	buffer = ft_calloc(1,
-			sizeof * buffer * texture->size * texture->size);
-	y = 0;
-	while (y < texture->size)
-	{
-		x = 0;
-		while (x < texture->size)
-		{
-			buffer[y * texture->size + x]
-				= tmp.addr[y * texture->size + x];
-			++x;
-		}
-		y++;
-	}
-	mlx_destroy_image(data->mlx, tmp.img);
-	return (buffer);
-}
-
-void	free_all_textures(t_game *game, int dofree)
-{
-	if (dofree)
-		free_textures(game);
-	free(game->tinfo.no.texdir);
-	free(game->tinfo.so.texdir);
-	free(game->tinfo.ea.texdir);
-	free(game->tinfo.we.texdir);
-	free(game->tinfo.ceiling_color);
-	free(game->tinfo.floor_color);
-}
-
-void	init_textures(t_game *game)
-{
-	game->textures = ft_calloc(4, sizeof(int *));
-	game->textures[NORTH] = xpm_to_img(game, &game->tinfo.no);
-	game->textures[SOUTH] = xpm_to_img(game, &game->tinfo.so);
-	game->textures[EAST] = xpm_to_img(game, &game->tinfo.ea);
-	game->textures[WEST] = xpm_to_img(game, &game->tinfo.we);
-	// free_textures(game);
-}
-
-void	init_texture_pixels(t_game *game)
-{
-	int i;
-
-	game->texture_pixels = ft_calloc((S_HEIGHT), sizeof(int *));
-	i = 0;
-	while (i < S_HEIGHT)
-	{
-		game->texture_pixels[i] = ft_calloc((S_WIDTH), sizeof(int));
-		i++;
-	}
-}
-
 int	close_window(t_game *game)
 {
-	int i;
+	int	i;
 
 	freemap(game, game->map);
 	i = 0;
@@ -160,55 +94,10 @@ int	close_window(t_game *game)
 	exit(0);
 }
 
-int	key_press(int keycode, t_game *game)
-{
-	if (keycode == 65361)
-	{
-		game->player.angle -= 5 * (PI / 180);
-		game->player.rotate = 1;
-	}
-	if (keycode == 65363)
-	{
-		game->player.angle += 5 * (PI / 180);
-		game->player.rotate = 1;
-	}
-	if (keycode == 119)
-		game->player.move_y = 1;
-	if (keycode == 115)
-		game->player.move_y = -1;
-	if (keycode == 97)
-		game->player.move_x = -1;
-	if (keycode == 100)
-		game->player.move_x = 1;
-	if (keycode == 65307)
-		close_window(game);
-	return (0);
-}
-
-int	key_release(int key, t_game *game)
-{
-	if (key == 119)
-		game->player.move_y = 0;
-	if (key == 115)
-		game->player.move_y = 0;
-	if (key == 97)
-		game->player.move_x = 0;
-	if (key == 100)
-		game->player.move_x = 0;
-	if (key == 65361 || key == 65363)
-		game->player.rotate = 0;
-	return (0);
-}
-
-void	key_hooks(t_game *game)
-{
-	mlx_hook(game->win, 2, 1L<<0, key_press, game);
-	mlx_hook(game->win, 3, 1L<<1, key_release, game);;
-}
-
 int	main(int argc, char **argv)
 {
-	t_game game;
+	t_game	game;
+
 	if (argc != 2)
 	{
 		printf("Error\nUsage: ./cub3D <map.cub>\n");

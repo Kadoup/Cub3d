@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+         #
+#    By: emalmber <emalmber@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/21 14:40:06 by tjourdan          #+#    #+#              #
-#    Updated: 2025/10/01 16:31:32 by tjourdan         ###   ########.fr        #
+#    Updated: 2025/10/24 18:28:43 by emalmber         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,9 +28,19 @@ INCLUDES	= include/cub3d.h $(LIBFT_DIR)/libft.h $(MLX_PATH)mlx.h
 
 SRCS		=	$(SRC_DIR)/main.c \
 				$(SRC_DIR)/check.c \
-				$(SRC_DIR)/parsing.c \
+				$(SRC_DIR)/init.c \
+				$(SRC_DIR)/initimg.c \
+				$(SRC_DIR)/key.c \
+				$(SRC_DIR)/lines.c \
+				$(SRC_DIR)/maps.c \
 				$(SRC_DIR)/move.c \
+				$(SRC_DIR)/parsing.c \
 				$(SRC_DIR)/raycasting.c \
+				$(SRC_DIR)/render.c \
+				$(SRC_DIR)/free.c \
+				$(SRC_DIR)/dda.c \
+				$(SRC_DIR)/draw.c \
+				$(SRC_DIR)/texture.c \
 				$(SRC_DIR)/utils.c
 
 OBJS		= $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRCS))
