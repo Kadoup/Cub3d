@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emalmber <emalmber@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:11:15 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/10/24 17:49:22 by emalmber         ###   ########.fr       */
+/*   Updated: 2025/10/27 15:35:49 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,37 +31,80 @@ int	get_textures(t_game *game, char *line)
 	return (1);
 }
 
-void	getmapdimensions(t_game *game, char *argv)
+int	open_map_file(char *argv)
 {
-	char	*line;
-	int		fd;
+	int	fd;
 
-	game->height = 0;
 	fd = open(argv, O_RDONLY);
 	if (fd == -1)
 	{
 		printf("Error\nCannot open file\n");
 		exit(1);
 	}
+	return (fd);
+}
+
+bool	process_line(t_game *game, char *line)
+{
+	if (get_textures(game, line))
+	{
+		game->tinfo.nb_textures++;
+		return (true);
+	}
+	if (line[0] != '\n')
+		game->height++;
+	return (false);
+}
+
+void	getmapdimensions(t_game *game, char *argv)
+{
+	char	*line;
+	int		fd;
+
+	game->height = 0;
+	fd = open_map_file(argv);
 	while (1)
 	{
 		line = gnl(fd);
 		if (line == NULL)
 			break ;
-		if (get_textures(game, line))
-		{
-			game->tinfo.nb_textures++;
-			free(line);
-			continue ;
-		}
-		if (line[0] != '\n')
-		{
-			game->height++;
-		}
+		process_line(game, line);
 		free(line);
 	}
 	close(fd);
 }
+
+// void	getmapdimensions(t_game *game, char *argv)
+// {
+// 	char	*line;
+// 	int		fd;
+
+// 	game->height = 0;
+// 	fd = open(argv, O_RDONLY);
+// 	if (fd == -1)
+// 	{
+// 		printf("Error\nCannot open file\n");
+// 		exit(1);
+// 	}
+// 	while (1)
+// 	{
+// 		line = gnl(fd);
+// 		if (line == NULL)
+// 			break ;
+// 		if (get_textures(game, line))
+// 		{
+// 			game->tinfo.nb_textures++;
+// 			free(line);
+// 			continue ;
+// 		}
+// 		if (line[0] != '\n')
+// 		{
+// 			game->height++;
+// 		}
+// 		free(line);
+// 	}
+// 	close(fd);
+// }
 
 void	cleanup_game(t_game *game)
 {

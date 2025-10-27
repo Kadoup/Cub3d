@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 17:32:19 by emalmber          #+#    #+#             */
-/*   Updated: 2025/10/27 15:17:57 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/10/27 15:32:17 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,41 +56,115 @@ bool	is_valid_map_char(char c)
 		== 'S' || c == 'E' || c == 'W' || c == ' ');
 }
 
+bool	is_walkable(char c)
+{
+	return (c == '0' || c == 'N' || c == 'S' || c == 'E' || c == 'W');
+}
+
+bool	is_on_edge(t_game *game, int i, int j)
+{
+	if (i == 0 || i == game->height - 1)
+		return (true);
+	if (j == 0 || j == (int)ft_strlen(game->map[i]) - 1)
+		return (true);
+	return (false);
+}
+
+bool	has_space_above(t_game *game, int i, int j)
+{
+	if (i > 0 && (game->map[i - 1][j] == ' '
+		|| (j >= (int)ft_strlen(game->map[i - 1]))))
+		return (true);
+	return (false);
+}
+
+bool	has_space_below(t_game *game, int i, int j)
+{
+	if (i < game->height - 1 && (game->map[i + 1][j] == ' '
+		|| (j >= (int)ft_strlen(game->map[i + 1]))))
+		return (true);
+	return (false);
+}
+
+bool	has_space_adjacent(t_game *game, int i, int j)
+{
+	if (j > 0 && game->map[i][j - 1] == ' ')
+		return (true);
+	if (j < (int)ft_strlen(game->map[i]) - 1
+		&& game->map[i][j + 1] == ' ')
+		return (true);
+	return (false);
+}
+
+bool	is_cell_enclosed(t_game *game, int i, int j)
+{
+	if (is_on_edge(game, i, j))
+		return (false);
+	if (has_space_above(game, i, j))
+		return (false);
+	if (has_space_below(game, i, j))
+		return (false);
+	if (has_space_adjacent(game, i, j))
+		return (false);
+	return (true);
+}
+
 bool	check_map_closure(t_game *game)
 {
 	int	i;
 	int	j;
 
-	i = 0;
-	while (i < game->height)
+	i = -1;
+	while (++i < game->height)
 	{
-		j = 0;
-		while (j < (int)ft_strlen(game->map[i]))
+		j = -1;
+		while (++j < (int)ft_strlen(game->map[i]))
 		{
-			if (game->map[i][j] == '0' || game->map[i][j] == 'N' ||
-				game->map[i][j] == 'S' || game->map[i][j] == 'E' ||
-				game->map[i][j] == 'W')
+			if (is_walkable(game->map[i][j]))
 			{
-				if (i == 0 || i == game->height - 1
-					|| j == 0 || j == (int)ft_strlen(game->map[i]) - 1)
-					return (false);
-				if (i > 0 && (game->map[i - 1][j] == ' '
-					|| (j >= (int)ft_strlen(game->map[i - 1])
-						&& game->map[i - 1][j] == '\0')))
-					return (false);
-				if (i < game->height - 1 && (game->map[i + 1][j] == ' '
-					|| (j >= (int)ft_strlen(game->map[i + 1])
-						&& game->map[i + 1][j] == '\0')))
-					return (false);
-				if (j > 0 && game->map[i][j - 1] == ' ')
-					return (false);
-				if (j < (int)ft_strlen(game->map[i]) - 1
-					&& game->map[i][j + 1] == ' ')
+				if (!is_cell_enclosed(game, i, j))
 					return (false);
 			}
-			j++;
 		}
-		i++;
 	}
 	return (true);
 }
+
+// bool	check_map_closure(t_game *game)
+// {
+// 	int	i;
+// 	int	j;
+
+// 	i = 0;
+// 	while (i < game->height)
+// 	{
+// 		j = 0;
+// 		while (j < (int)ft_strlen(game->map[i]))
+// 		{
+// 			if (game->map[i][j] == '0' || game->map[i][j] == 'N' ||
+// 				game->map[i][j] == 'S' || game->map[i][j] == 'E' ||
+// 				game->map[i][j] == 'W')
+// 			{
+// 				if (i == 0 || i == game->height - 1
+// 					|| j == 0 || j == (int)ft_strlen(game->map[i]) - 1)
+// 					return (false);
+// 				if (i > 0 && (game->map[i - 1][j] == ' '
+// 					|| (j >= (int)ft_strlen(game->map[i - 1])
+// 						&& game->map[i - 1][j] == '\0')))
+// 					return (false);
+// 				if (i < game->height - 1 && (game->map[i + 1][j] == ' '
+// 					|| (j >= (int)ft_strlen(game->map[i + 1])
+// 						&& game->map[i + 1][j] == '\0')))
+// 					return (false);
+// 				if (j > 0 && game->map[i][j - 1] == ' ')
+// 					return (false);
+// 				if (j < (int)ft_strlen(game->map[i]) - 1
+// 					&& game->map[i][j + 1] == ' ')
+// 					return (false);
+// 			}
+// 			j++;
+// 		}
+// 		i++;
+// 	}
+// 	return (true);
+// }
