@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 16:03:28 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/10/27 15:27:59 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/10/27 15:45:36 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,4 +96,17 @@ int	convert_colors_to_hex(t_game *game)
 	else
 		return (1);
 	return (0);
+}
+
+int	open_map_file(char *argv)
+{
+	int	fd;
+
+	fd = open(argv, O_RDONLY);
+	if (fd == -1)
+	{
+		printf("Error\nCannot open file\n");
+		exit(1);
+	}
+	return (fd);
 }

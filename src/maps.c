@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 17:32:19 by emalmber          #+#    #+#             */
-/*   Updated: 2025/10/27 15:32:17 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/10/27 15:43:12 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,46 +54,6 @@ bool	is_valid_map_char(char c)
 {
 	return (c == '0' || c == '1' || c == 'N' || c
 		== 'S' || c == 'E' || c == 'W' || c == ' ');
-}
-
-bool	is_walkable(char c)
-{
-	return (c == '0' || c == 'N' || c == 'S' || c == 'E' || c == 'W');
-}
-
-bool	is_on_edge(t_game *game, int i, int j)
-{
-	if (i == 0 || i == game->height - 1)
-		return (true);
-	if (j == 0 || j == (int)ft_strlen(game->map[i]) - 1)
-		return (true);
-	return (false);
-}
-
-bool	has_space_above(t_game *game, int i, int j)
-{
-	if (i > 0 && (game->map[i - 1][j] == ' '
-		|| (j >= (int)ft_strlen(game->map[i - 1]))))
-		return (true);
-	return (false);
-}
-
-bool	has_space_below(t_game *game, int i, int j)
-{
-	if (i < game->height - 1 && (game->map[i + 1][j] == ' '
-		|| (j >= (int)ft_strlen(game->map[i + 1]))))
-		return (true);
-	return (false);
-}
-
-bool	has_space_adjacent(t_game *game, int i, int j)
-{
-	if (j > 0 && game->map[i][j - 1] == ' ')
-		return (true);
-	if (j < (int)ft_strlen(game->map[i]) - 1
-		&& game->map[i][j + 1] == ' ')
-		return (true);
-	return (false);
 }
 
 bool	is_cell_enclosed(t_game *game, int i, int j)

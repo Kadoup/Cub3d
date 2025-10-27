@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:11:15 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/10/27 15:35:49 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/10/27 15:47:14 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,19 +29,6 @@ int	get_textures(t_game *game, char *line)
 	else
 		return (0);
 	return (1);
-}
-
-int	open_map_file(char *argv)
-{
-	int	fd;
-
-	fd = open(argv, O_RDONLY);
-	if (fd == -1)
-	{
-		printf("Error\nCannot open file\n");
-		exit(1);
-	}
-	return (fd);
 }
 
 bool	process_line(t_game *game, char *line)
@@ -74,38 +61,6 @@ void	getmapdimensions(t_game *game, char *argv)
 	close(fd);
 }
 
-// void	getmapdimensions(t_game *game, char *argv)
-// {
-// 	char	*line;
-// 	int		fd;
-
-// 	game->height = 0;
-// 	fd = open(argv, O_RDONLY);
-// 	if (fd == -1)
-// 	{
-// 		printf("Error\nCannot open file\n");
-// 		exit(1);
-// 	}
-// 	while (1)
-// 	{
-// 		line = gnl(fd);
-// 		if (line == NULL)
-// 			break ;
-// 		if (get_textures(game, line))
-// 		{
-// 			game->tinfo.nb_textures++;
-// 			free(line);
-// 			continue ;
-// 		}
-// 		if (line[0] != '\n')
-// 		{
-// 			game->height++;
-// 		}
-// 		free(line);
-// 	}
-// 	close(fd);
-// }
-
 void	cleanup_game(t_game *game)
 {
 	int	i;
@@ -125,30 +80,6 @@ void	cleanup_game(t_game *game)
 			free(game->map[i++]);
 		free(game->map);
 	}
-}
-
-int	count_players(t_game *game)
-{
-	int		i;
-	size_t	j;
-	int		count;
-
-	count = 0;
-	i = 0;
-	while (i < game->height)
-	{
-		printf("Checking row %d: %s\n", i, game->map[i]);
-		j = 0;
-		while (j < ft_strlen(game->map[i]))
-		{
-			if (game->map[i][j] == 'N' || game->map[i][j] == 'S' ||
-				game->map[i][j] == 'E' || game->map[i][j] == 'W')
-				count++;
-			j++;
-		}
-		i++;
-	}
-	return (count);
 }
 
 int	validate_textures_and_colors(t_game *game)

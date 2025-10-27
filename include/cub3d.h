@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:32:14 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/10/27 15:25:59 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/10/27 15:49:36 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,15 +114,14 @@ typedef struct s_game
 	t_player	player;
 	t_tinfo		tinfo;
 	t_ray		ray;
-	int		*i;
-	bool	*map_started;
+	int			*i;
+	bool		*map_started;
 }				t_game;
 
 /* ************************************************************************** */
 /*                                MAIN.C                                      */
 /* ************************************************************************** */
 char	**create_visited_array(t_game *game);
-void	get_player_position(t_game *game);
 int		close_window(t_game *game);
 
 /* ************************************************************************** */
@@ -191,6 +190,7 @@ void	init_texture_pixels(t_game *game, bool first);
 /* ************************************************************************** */
 int		convert(char *color_str);
 int		convert_colors_to_hex(t_game *game);
+int		open_map_file(char *argv);
 
 /* ************************************************************************** */
 /*                                PARSING.C                                   */
@@ -198,7 +198,6 @@ int		convert_colors_to_hex(t_game *game);
 int		get_textures(t_game *game, char *line);
 void	getmapdimensions(t_game *game, char *argv);
 void	cleanup_game(t_game *game);
-int		count_players(t_game *game);
 int		validate_textures_and_colors(t_game *game);
 
 /* ************************************************************************** */
@@ -245,9 +244,9 @@ void	free_rgb_split(char **rgb_split);
 /* ************************************************************************** */
 /*                                CALCULATE.C                                 */
 /* ************************************************************************** */
-int	calculate_tex_y(t_game *game, int y);
+int		calculate_tex_y(t_game *game, int y);
 double	calculate_wall_x(t_game *game);
-int	calculate_tex_x(t_game *game, double wall_x);
+int		calculate_tex_x(t_game *game, double wall_x);
 
 /* ************************************************************************** */
 /*                                RGB.C                                       */
@@ -257,5 +256,23 @@ bool	validate_rgb_value(int value);
 bool	is_valid_rgb_format(char **rgb_split);
 bool	check_rgb_values(char **rgb_split);
 bool	validate_color_components(char *color_str);
+
+/* ************************************************************************** */
+/*                                PLAYER.C                                    */
+/* ************************************************************************** */
+void	set_player_angle(t_game *game);
+void	init_players(t_game *game, int i, int j);
+int		is_player_char(char c);
+void	get_player_position(t_game *game);
+int		count_players(t_game *game);
+
+/* ************************************************************************** */
+/*                                CHECK_POS.C                                 */
+/* ************************************************************************** */
+bool	is_walkable(char c);
+bool	is_on_edge(t_game *game, int i, int j);
+bool	has_space_above(t_game *game, int i, int j);
+bool	has_space_below(t_game *game, int i, int j);
+bool	has_space_adjacent(t_game *game, int i, int j);
 
 #endif
