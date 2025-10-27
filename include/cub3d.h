@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:32:14 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/10/27 14:07:45 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/10/27 15:25:59 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,8 @@ typedef struct s_game
 	t_player	player;
 	t_tinfo		tinfo;
 	t_ray		ray;
+	int		*i;
+	bool	*map_started;
 }				t_game;
 
 /* ************************************************************************** */
@@ -187,9 +189,6 @@ void	init_texture_pixels(t_game *game, bool first);
 /* ************************************************************************** */
 /*                                UTILS.C                                     */
 /* ************************************************************************** */
-int		rgb_to_hex(int r, int g, int b);
-bool	validate_rgb_value(int value);
-bool	validate_color_components(char *color_str);
 int		convert(char *color_str);
 int		convert_colors_to_hex(t_game *game);
 
@@ -224,8 +223,7 @@ void	skip_textures_and_empty_lines(int fd, t_game *game, char **line);
 bool	check_empty_lines_in_map(int fd);
 void	handle_map_line(t_game *game, char *line, int *i, bool *map_started);
 void	handle_empty_line_in_map(char *line, int fd, t_game *game);
-void	process_map_line(t_game *game, char *line, int *i,
-			bool *map_started, int fd);
+void	process_map_line(t_game *game, char *line, int fd);
 
 /* ************************************************************************** */
 /*                                INITIMG.C                                   */
@@ -242,5 +240,22 @@ void	free_split(char **str);
 void	freemap(t_game *game, char **map);
 void	free_textures(t_game *game);
 void	free_texture_pixels(t_game *game);
+void	free_rgb_split(char **rgb_split);
+
+/* ************************************************************************** */
+/*                                CALCULATE.C                                 */
+/* ************************************************************************** */
+int	calculate_tex_y(t_game *game, int y);
+double	calculate_wall_x(t_game *game);
+int	calculate_tex_x(t_game *game, double wall_x);
+
+/* ************************************************************************** */
+/*                                RGB.C                                       */
+/* ************************************************************************** */
+int		rgb_to_hex(int r, int g, int b);
+bool	validate_rgb_value(int value);
+bool	is_valid_rgb_format(char **rgb_split);
+bool	check_rgb_values(char **rgb_split);
+bool	validate_color_components(char *color_str);
 
 #endif

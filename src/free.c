@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 18:23:00 by emalmber          #+#    #+#             */
-/*   Updated: 2025/10/27 14:08:49 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/10/27 15:22:17 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,18 @@ void	free_split(char **str)
 		i++;
 	}
 	free(str);
+}
+
+void	free_rgb_split(char **rgb_split)
+{
+	int	i;
+
+	if (!rgb_split)
+		return ;
+	i = 0;
+	while (rgb_split[i])
+		free(rgb_split[i++]);
+	free(rgb_split);
 }
 
 void	freemap(t_game *game, char **map)

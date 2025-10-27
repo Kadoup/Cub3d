@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emalmber <emalmber@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 18:34:04 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/10/24 18:23:13 by emalmber         ###   ########.fr       */
+/*   Updated: 2025/10/27 14:12:06 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,12 @@ int	check_player_count(t_game *game)
 	return (0);
 }
 
+void	clean(t_game *game)
+{
+	freemap(game, game->map);
+	free_all_textures(game, 0);
+}
+
 int	check_map(t_game *game)
 {
 	char	**visited;
@@ -61,24 +67,21 @@ int	check_map(t_game *game)
 	if (!check_map_closure(game))
 	{
 		printf("Error\nMap is not properly closed\n");
-		freemap(game, game->map);
-		free_all_textures(game, 0);
+		clean(game);
 		return (1);
 	}
 	visited = create_visited_array(game);
 	if (check_player_count(game))
 	{
 		freemap(game, visited);
-		freemap(game, game->map);
-		free_all_textures(game, 0);
+		clean(game);
 		return (1);
 	}
 	get_player_position(game);
 	if (!check_edges(game, game->player.x, game->player.y, visited))
 	{
 		freemap(game, visited);
-		freemap(game, game->map);
-		free_all_textures(game, 0);
+		clean(game);
 		printf("Error\nMap is not closed\n");
 		return (1);
 	}

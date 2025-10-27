@@ -3,89 +3,87 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emalmber <emalmber@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 16:03:28 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/10/24 18:22:56 by emalmber         ###   ########.fr       */
+/*   Updated: 2025/10/27 15:27:59 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	rgb_to_hex(int r, int g, int b)
+int	count_rgb_components(char **split)
 {
-	return ((r << 16) | (g << 8) | b);
+	int	count;
+
+	count = 0;
+	while (split[count])
+		count++;
+	return (count);
 }
 
-bool	validate_rgb_value(int value)
+int	validate_rgb_range(int r, int g, int b)
 {
-	return (value >= 0 && value <= 255);
-}
-
-bool	validate_color_components(char *color_str)
-{
-	char	**rgb_split;
-	int		r;
-	int		g;
-	int		b;
-	int		i;
-	bool	valid;
-
-	rgb_split = ft_split(color_str, ',');
-	if (!rgb_split || !rgb_split[0] || !rgb_split[1]
-		|| !rgb_split[2] || rgb_split[3])
-	{
-		if (rgb_split)
-		{
-			i = 0;
-			while (rgb_split[i])
-				free(rgb_split[i++]);
-			free(rgb_split);
-		}
-		return (false);
-	}
-	r = ft_atoi(rgb_split[0]);
-	g = ft_atoi(rgb_split[1]);
-	b = ft_atoi(rgb_split[2]);
-	valid = validate_rgb_value(r) && validate_rgb_value(g)
-		&& validate_rgb_value(b);
-	i = 0;
-	while (rgb_split[i])
-		free(rgb_split[i++]);
-	free(rgb_split);
-	return (valid);
+	if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
+		return (1);
+	return (0);
 }
 
 int	convert(char *color_str)
 {
 	char	**res;
-	int		r;
-	int		g;
-	int		b;
-	int		i;
+	int		rgb[3];
 
-	i = 0;
 	if (color_str[ft_strlen(color_str) - 1] == ',')
 		return (1);
 	res = ft_split(color_str, ',');
-	while (res[i])
-		i++;
-	if (i != 3)
+	if (count_rgb_components(res) != 3)
 	{
 		free_split(res);
 		return (1);
 	}
-	r = ft_atoi(res[0]);
-	g = ft_atoi(res[1]);
-	b = ft_atoi(res[2]);
-	if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
+	rgb[0] = ft_atoi(res[0]);
+	rgb[1] = ft_atoi(res[1]);
+	rgb[2] = ft_atoi(res[2]);
+	if (validate_rgb_range(rgb[0], rgb[1], rgb[2]))
 	{
 		free_split(res);
 		return (1);
 	}
 	free_split(res);
-	return (rgb_to_hex(r, g, b));
+	return (rgb_to_hex(rgb[0], rgb[1], rgb[2]));
 }
+
+// int	convert(char *color_str)
+// {
+// 	char	**res;
+// 	int		r;
+// 	int		g;
+// 	int		b;
+// 	int		i;
+
+// 	i = 0;
+// 	if (color_str[ft_strlen(color_str) - 1] == ',')
+// 		return (1);
+// 	res = ft_split(color_str, ',');
+// 	while (res[i])
+// 		i++;
+// 	if (i != 3)
+// 	{
+// 		free_split(res);
+// 		return (1);
+// 	}
+// 	r = ft_atoi(res[0]);
+// 	g = ft_atoi(res[1]);
+// 	b = ft_atoi(res[2]);
+// 	if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
+// 	{
+// 		free_split(res);
+// 		return (1);
+// 	}
+// 	free_split(res);
+// 	return (rgb_to_hex(r, g, b));
+// }
 
 int	convert_colors_to_hex(t_game *game)
 {

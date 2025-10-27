@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 17:30:15 by emalmber          #+#    #+#             */
-/*   Updated: 2025/10/27 13:57:22 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/10/27 15:18:25 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,13 +85,12 @@ void	handle_empty_line_in_map(char *line, int fd, t_game *game)
 	exit(0);
 }
 
-void	process_map_line(t_game *game, char *line, int *i,
-			bool *map_started, int fd)
+void	process_map_line(t_game *game, char *line, int fd)
 {
 	if (line[0] != '\n' && line[0] != '\0')
-		handle_map_line(game, line, i, map_started);
-	else if (*map_started && check_empty_lines_in_map(fd))
+		handle_map_line(game, line, game->i, game->map_started);
+	else if (game->map_started && check_empty_lines_in_map(fd))
 		handle_empty_line_in_map(line, fd, game);
-	else if (*map_started)
+	else if (game->map_started)
 		return ;
 }

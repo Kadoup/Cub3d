@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: emalmber <emalmber@student.42.fr>          +#+  +:+       +#+         #
+#    By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/21 14:40:06 by tjourdan          #+#    #+#              #
-#    Updated: 2025/10/24 18:28:43 by emalmber         ###   ########.fr        #
+#    Updated: 2025/10/27 15:27:32 by tjourdan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,8 @@ SRCS		=	$(SRC_DIR)/main.c \
 				$(SRC_DIR)/dda.c \
 				$(SRC_DIR)/draw.c \
 				$(SRC_DIR)/texture.c \
+				$(SRC_DIR)/calculate.c \
+				$(SRC_DIR)/rgb.c \
 				$(SRC_DIR)/utils.c
 
 OBJS		= $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRCS))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   maps.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emalmber <emalmber@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 17:32:19 by emalmber          #+#    #+#             */
-/*   Updated: 2025/10/24 17:46:48 by emalmber         ###   ########.fr       */
+/*   Updated: 2025/10/27 15:17:57 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@ void	read_map_loop(t_game *game, int fd, char **line)
 	current_line = *line;
 	while (current_line != NULL)
 	{
-		process_map_line(game, current_line, &i, &map_started, fd);
+		game->i = &i;
+		game->map_started = &map_started;
+		process_map_line(game, current_line, fd);
 		if (map_started && (current_line[0] == '\n' || current_line[0] == '\0'))
 		{
 			*line = current_line;
