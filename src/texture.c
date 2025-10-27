@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   texture.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emalmber <emalmber@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 17:06:20 by emalmber          #+#    #+#             */
-/*   Updated: 2025/10/24 17:47:41 by emalmber         ###   ########.fr       */
+/*   Updated: 2025/10/27 14:06:43 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,12 @@ void	init_textures(t_game *game)
 	game->textures[WEST] = xpm_to_img(game, &game->tinfo.we);
 }
 
-void	init_texture_pixels(t_game *game)
+void	init_texture_pixels(t_game *game, bool first)
 {
 	int	i;
 
+	if (!first)
+		free_texture_pixels(game);
 	game->texture_pixels = ft_calloc((S_HEIGHT), sizeof(int *));
 	i = 0;
 	while (i < S_HEIGHT)

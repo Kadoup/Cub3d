@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emalmber <emalmber@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 18:20:03 by emalmber          #+#    #+#             */
-/*   Updated: 2025/10/24 18:20:40 by emalmber         ###   ########.fr       */
+/*   Updated: 2025/10/27 14:07:17 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ void	render_frame(t_game *data)
 	mlx_destroy_image(data->mlx, image.img);
 }
 
-void	render_game(t_game *game)
+void	render_game(t_game *game, bool first)
 {
-	init_texture_pixels(game);
+	init_texture_pixels(game, first);
 	cast_rays(game);
 	render_frame(game);
 }
@@ -47,7 +47,7 @@ int	render(t_game *game)
 	game->player.has_moved = update_position(game);
 	if (!game->player.has_moved)
 		return (0);
-	render_game(game);
+	render_game(game, false);
 	game->player.has_moved = 0;
 	return (0);
 }

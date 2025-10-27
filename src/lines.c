@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lines.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emalmber <emalmber@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 17:30:15 by emalmber          #+#    #+#             */
-/*   Updated: 2025/10/24 17:44:50 by emalmber         ###   ########.fr       */
+/*   Updated: 2025/10/27 13:57:22 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ bool	check_empty_lines_in_map(int fd)
 	bool	has_more_content;
 
 	has_more_content = false;
-	while ((next_line = gnl(fd)) != NULL)
+	next_line = gnl(fd);
+	while (next_line != NULL)
 	{
 		if (next_line[0] != '\n' && next_line[0] != '\0')
 		{
@@ -50,6 +51,7 @@ bool	check_empty_lines_in_map(int fd)
 			break ;
 		}
 		free(next_line);
+		next_line = gnl(fd);
 	}
 	return (has_more_content);
 }
@@ -71,8 +73,12 @@ void	handle_empty_line_in_map(char *line, int fd, t_game *game)
 	char	*tmp;
 
 	free(line);
-	while ((tmp = gnl(fd)) != NULL)
+	tmp = gnl(fd);
+	while (tmp != NULL)
+	{
 		free(tmp);
+		tmp = gnl(fd);
+	}
 	close(fd);
 	cleanup_game(game);
 	printf("Error\nEmpty lines not allowed within map\n");

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emalmber <emalmber@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:56:30 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/10/24 17:07:14 by emalmber         ###   ########.fr       */
+/*   Updated: 2025/10/27 14:07:23 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int	main(int argc, char **argv)
 	init_textures(&game);
 	key_hooks(&game);
 	mlx_hook(game.win, 17, 0, close_window, &game);
-	render_game(&game);
+	render_game(&game, true);
 	mlx_loop_hook(game.mlx, render, &game);
 	mlx_loop(game.mlx);
 }

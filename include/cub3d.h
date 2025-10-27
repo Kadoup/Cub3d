@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emalmber <emalmber@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:32:14 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/10/24 18:28:00 by emalmber         ###   ########.fr       */
+/*   Updated: 2025/10/27 14:07:45 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,7 @@ void	set_frame_image_pixel(t_game *data, t_img *image, int x, int y);
 /*                                RENDER.C                                    */
 /* ************************************************************************** */
 void	render_frame(t_game *data);
-void	render_game(t_game *game);
+void	render_game(t_game *game, bool first);
 int		render(t_game *game);
 
 /* ************************************************************************** */
@@ -182,7 +182,7 @@ void	init_mlx(t_game *game);
 void	init_textures(t_game *game);
 int		*xpm_to_img(t_game *data, t_singletex *texture);
 void	free_all_textures(t_game *game, int dofree);
-void	init_texture_pixels(t_game *game);
+void	init_texture_pixels(t_game *game, bool first);
 
 /* ************************************************************************** */
 /*                                UTILS.C                                     */
@@ -241,5 +241,6 @@ void	init_ray(t_game *game, float ray_angle);
 void	free_split(char **str);
 void	freemap(t_game *game, char **map);
 void	free_textures(t_game *game);
+void	free_texture_pixels(t_game *game);
 
 #endif
