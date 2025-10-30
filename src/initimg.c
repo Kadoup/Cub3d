@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initimg.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: emalmber <emalmber@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 18:16:12 by emalmber          #+#    #+#             */
-/*   Updated: 2025/10/24 18:17:34 by emalmber         ###   ########.fr       */
+/*   Updated: 2025/10/30 15:38:58 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	init_texture_img(t_game *data, t_img *image, t_singletex *texture)
 			&texture->size, &texture->size);
 	if (image->img == NULL)
 	{
+		printf("Error\nFailed to load texture image\n");
 		freemap(data, data->map);
 		free_all_textures(data, 1);
 		mlx_destroy_window(data->mlx, data->win);
