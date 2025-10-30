@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 18:34:04 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/10/30 15:29:41 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/10/30 16:32:59 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,34 @@ void	clean(t_game *game)
 	free_all_textures(game, 0);
 }
 
+void	check_map_chars(t_game *game)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < game->height)
+	{
+		j = 0;
+		while (j < (int)ft_strlen(game->map[i]))
+		{
+			if (!is_valid_map_char(game->map[i][j]))
+			{
+				printf("Error\nInvalid character in map\n");
+				clean(game);
+				exit(1);
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
 int	check_map(t_game *game)
 {
 	char	**visited;
 
+	check_map_chars(game);
 	if (!check_map_closure(game))
 	{
 		printf("Error\nInvalid map\n");

@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 15:42:58 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/10/27 15:43:19 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/10/30 16:40:41 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,25 @@ bool	is_on_edge(t_game *game, int i, int j)
 
 bool	has_space_above(t_game *game, int i, int j)
 {
-	if (i > 0 && (game->map[i - 1][j] == ' '
-		|| (j >= (int)ft_strlen(game->map[i - 1]))))
-		return (true);
+	if (i > 0)
+	{
+		if (j >= (int)ft_strlen(game->map[i - 1]))
+			return (true);
+		if (game->map[i - 1][j] == ' ')
+			return (true);
+	}
 	return (false);
 }
 
 bool	has_space_below(t_game *game, int i, int j)
 {
-	if (i < game->height - 1 && (game->map[i + 1][j] == ' '
-		|| (j >= (int)ft_strlen(game->map[i + 1]))))
-		return (true);
+	if (i < game->height - 1)
+	{
+		if (j >= (int)ft_strlen(game->map[i + 1]))
+			return (true);
+		if (game->map[i + 1][j] == ' ')
+			return (true);
+	}
 	return (false);
 }
 
