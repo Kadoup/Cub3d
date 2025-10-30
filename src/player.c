@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 15:39:23 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/10/27 15:48:13 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/10/30 13:39:17 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int	count_players(t_game *game)
 	i = 0;
 	while (i < game->height)
 	{
-		printf("Checking row %d: %s\n", i, game->map[i]);
 		j = 0;
 		while (j < ft_strlen(game->map[i]))
 		{

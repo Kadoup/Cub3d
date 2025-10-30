@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 18:34:04 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/10/27 14:12:06 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/10/30 15:29:41 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ int	check_player_count(t_game *game)
 	int	player_count;
 
 	player_count = count_players(game);
-	printf("Player count: %d\n", player_count);
 	if (player_count != 1)
 	{
 		if (player_count == 0)
@@ -66,7 +65,7 @@ int	check_map(t_game *game)
 
 	if (!check_map_closure(game))
 	{
-		printf("Error\nMap is not properly closed\n");
+		printf("Error\nInvalid map\n");
 		clean(game);
 		return (1);
 	}
@@ -82,17 +81,9 @@ int	check_map(t_game *game)
 	{
 		freemap(game, visited);
 		clean(game);
-		printf("Error\nMap is not closed\n");
+		printf("Error\nInvalid map\n");
 		return (1);
 	}
 	freemap(game, visited);
 	return (0);
 }
-
-// void	ft_error(char *mess, t_game *game, int free)
-// {
-// 	ft_putstr_fd(mess, 2);
-// 	if (free == 1)
-// 		freemap(game, game->map);
-// 	exit (1);
-// }

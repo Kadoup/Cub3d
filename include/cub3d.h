@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:32:14 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/10/27 15:49:36 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/10/30 15:25:55 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -274,5 +274,12 @@ bool	is_on_edge(t_game *game, int i, int j);
 bool	has_space_above(t_game *game, int i, int j);
 bool	has_space_below(t_game *game, int i, int j);
 bool	has_space_adjacent(t_game *game, int i, int j);
+
+/* ************************************************************************** */
+/*                                CHECK_TEXTURE.C                             */
+/* ************************************************************************** */
+int	check_duplicate(t_game *game, char *line);
+int	parse_texture(t_game *game, char *line);
+int	parse_color(t_game *game, char *line);
 
 #endif

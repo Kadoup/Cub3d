@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 17:34:32 by emalmber          #+#    #+#             */
-/*   Updated: 2025/10/27 13:56:32 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/10/30 14:58:24 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,34 +64,3 @@ void	init_game(t_game *game, char **argv)
 	if (convert_colors_to_hex(game))
 		exit(1);
 }
-
-// void	init_game(t_game *game, char **argv)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	game->map = NULL;
-// 	init_tinfo(&game->tinfo);
-// 	game->player.x = -1;
-// 	game->player.y = -1;
-// 	game->player.angle = 0;
-// 	game->player.move_x = 0;
-// 	game->player.move_y = 0;
-// 	game->player.rotate = 0;
-// 	game->player.has_moved = 0;
-// 	getmapdimensions(game, argv[1]);
-// 	if (validate_textures_and_colors(game))
-// 	{
-// 		cleanup_game(game);
-// 		exit(1);
-// 	}
-// 	game->map = malloc(sizeof(char *) * game->height);
-// 	while (i < game->height)
-// 	{
-// 		game->map[i] = NULL;
-// 		i++;
-// 	}
-// 	readmapfromfile(game, argv[1]);
-// 	if (convert_colors_to_hex(game))
-// 		exit(1);
-// }

@@ -6,7 +6,7 @@
 #    By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/05/21 14:40:06 by tjourdan          #+#    #+#              #
-#    Updated: 2025/10/27 15:44:30 by tjourdan         ###   ########.fr        #
+#    Updated: 2025/10/30 15:23:49 by tjourdan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,6 +45,7 @@ SRCS		=	$(SRC_DIR)/main.c \
 				$(SRC_DIR)/rgb.c \
 				$(SRC_DIR)/player.c \
 				$(SRC_DIR)/check_pos.c \
+				$(SRC_DIR)/check_texture.c \
 				$(SRC_DIR)/utils.c
 
 OBJS		= $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRCS))

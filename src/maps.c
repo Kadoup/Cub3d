@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 17:32:19 by emalmber          #+#    #+#             */
-/*   Updated: 2025/10/27 15:43:12 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/10/30 14:52:00 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ bool	check_map_closure(t_game *game)
 	i = -1;
 	while (++i < game->height)
 	{
+		if (!game->map[i])
+			return (false);
 		j = -1;
 		while (++j < (int)ft_strlen(game->map[i]))
 		{
@@ -89,42 +91,3 @@ bool	check_map_closure(t_game *game)
 	}
 	return (true);
 }
-
-// bool	check_map_closure(t_game *game)
-// {
-// 	int	i;
-// 	int	j;
-
-// 	i = 0;
-// 	while (i < game->height)
-// 	{
-// 		j = 0;
-// 		while (j < (int)ft_strlen(game->map[i]))
-// 		{
-// 			if (game->map[i][j] == '0' || game->map[i][j] == 'N' ||
-// 				game->map[i][j] == 'S' || game->map[i][j] == 'E' ||
-// 				game->map[i][j] == 'W')
-// 			{
-// 				if (i == 0 || i == game->height - 1
-// 					|| j == 0 || j == (int)ft_strlen(game->map[i]) - 1)
-// 					return (false);
-// 				if (i > 0 && (game->map[i - 1][j] == ' '
-// 					|| (j >= (int)ft_strlen(game->map[i - 1])
-// 						&& game->map[i - 1][j] == '\0')))
-// 					return (false);
-// 				if (i < game->height - 1 && (game->map[i + 1][j] == ' '
-// 					|| (j >= (int)ft_strlen(game->map[i + 1])
-// 						&& game->map[i + 1][j] == '\0')))
-// 					return (false);
-// 				if (j > 0 && game->map[i][j - 1] == ' ')
-// 					return (false);
-// 				if (j < (int)ft_strlen(game->map[i]) - 1
-// 					&& game->map[i][j + 1] == ' ')
-// 					return (false);
-// 			}
-// 			j++;
-// 		}
-// 		i++;
-// 	}
-// 	return (true);
-// }

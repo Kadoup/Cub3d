@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/24 17:30:15 by emalmber          #+#    #+#             */
-/*   Updated: 2025/10/27 15:18:25 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/10/30 15:29:14 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	handle_empty_line_in_map(char *line, int fd, t_game *game)
 	}
 	close(fd);
 	cleanup_game(game);
-	printf("Error\nEmpty lines not allowed within map\n");
+	printf("Error\nInvalid map\n");
 	exit(0);
 }
 

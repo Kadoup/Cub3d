@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 16:03:28 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/10/27 15:45:36 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/10/30 13:38:23 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,37 +53,6 @@ int	convert(char *color_str)
 	free_split(res);
 	return (rgb_to_hex(rgb[0], rgb[1], rgb[2]));
 }
-
-// int	convert(char *color_str)
-// {
-// 	char	**res;
-// 	int		r;
-// 	int		g;
-// 	int		b;
-// 	int		i;
-
-// 	i = 0;
-// 	if (color_str[ft_strlen(color_str) - 1] == ',')
-// 		return (1);
-// 	res = ft_split(color_str, ',');
-// 	while (res[i])
-// 		i++;
-// 	if (i != 3)
-// 	{
-// 		free_split(res);
-// 		return (1);
-// 	}
-// 	r = ft_atoi(res[0]);
-// 	g = ft_atoi(res[1]);
-// 	b = ft_atoi(res[2]);
-// 	if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
-// 	{
-// 		free_split(res);
-// 		return (1);
-// 	}
-// 	free_split(res);
-// 	return (rgb_to_hex(r, g, b));
-// }
 
 int	convert_colors_to_hex(t_game *game)
 {
