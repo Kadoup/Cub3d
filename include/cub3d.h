@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 17:32:14 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/10/30 15:25:55 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/10/31 15:54:20 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,6 +214,7 @@ bool	check_map_closure(t_game *game);
 int		check_map(t_game *game);
 int		check_player_count(t_game *game);
 bool	check_edges(t_game *game, int x, int y, char **visited);
+void	clean(t_game *game);
 
 /* ************************************************************************** */
 /*                                LINES.C                                     */
@@ -247,6 +248,7 @@ void	free_rgb_split(char **rgb_split);
 int		calculate_tex_y(t_game *game, int y);
 double	calculate_wall_x(t_game *game);
 int		calculate_tex_x(t_game *game, double wall_x);
+int		cleaner(t_game *game, char **visited);
 
 /* ************************************************************************** */
 /*                                RGB.C                                       */
@@ -278,8 +280,8 @@ bool	has_space_adjacent(t_game *game, int i, int j);
 /* ************************************************************************** */
 /*                                CHECK_TEXTURE.C                             */
 /* ************************************************************************** */
-int	check_duplicate(t_game *game, char *line);
-int	parse_texture(t_game *game, char *line);
-int	parse_color(t_game *game, char *line);
+int		check_duplicate(t_game *game, char *line);
+int		parse_texture(t_game *game, char *line);
+int		parse_color(t_game *game, char *line);
 
 #endif

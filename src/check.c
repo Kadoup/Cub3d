@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/09 18:34:04 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/10/30 16:32:59 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/10/31 15:52:27 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,18 +95,12 @@ int	check_map(t_game *game)
 	}
 	visited = create_visited_array(game);
 	if (check_player_count(game))
-	{
-		freemap(game, visited);
-		clean(game);
-		return (1);
-	}
+		return (cleaner(game, visited));
 	get_player_position(game);
 	if (!check_edges(game, game->player.x, game->player.y, visited))
 	{
-		freemap(game, visited);
-		clean(game);
 		printf("Error\nInvalid map\n");
-		return (1);
+		return (cleaner(game, visited));
 	}
 	freemap(game, visited);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: tjourdan <tjourdan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/27 14:15:02 by tjourdan          #+#    #+#             */
-/*   Updated: 2025/10/27 14:15:29 by tjourdan         ###   ########.fr       */
+/*   Updated: 2025/10/31 15:52:07 by tjourdan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,11 @@ int	calculate_tex_x(t_game *game, double wall_x)
 	if (tex_x >= game->tinfo.size)
 		tex_x = game->tinfo.size - 1;
 	return (tex_x);
+}
+
+int	cleaner(t_game *game, char **visited)
+{
+	freemap(game, visited);
+	clean(game);
+	return (1);
 }
